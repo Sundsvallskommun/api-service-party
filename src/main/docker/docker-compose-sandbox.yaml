@@ -1,0 +1,26 @@
+version: "3"
+services:
+  ms-party-sandbox:
+    container_name: ms-party-sandbox
+    image: 'ms-party:sandbox'
+    links:
+      - 'ms-party-wiremock-sandbox:wiremock'
+    restart: always
+    build:
+      context: ../../..
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - '9071:8080'
+    environment:
+      SPRING_PROFILES_ACTIVE: 'sandbox'
+    depends_on:
+      - ms-party-wiremock-sandbox
+
+  ms-party-wiremock-sandbox:
+    container_name: ms-party-wiremock-sandbox
+    image: wiremock/wiremock
+    restart: always
+    expose:
+      - '8080'
+    volumes:
+      - $PWD/src/test/resources/wiremock:/home/wiremock

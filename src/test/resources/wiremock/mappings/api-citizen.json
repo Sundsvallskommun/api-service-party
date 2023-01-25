@@ -1,0 +1,14 @@
+{
+	"name": "api-citizen",
+	"request": {
+		"urlPathPattern": "/api-citizen/person/([0-9]{12})/guid",
+		"method": "GET"
+	},
+	"response": {
+		"headers": {
+			"Content-Type": "text/plain"
+		},
+		"status": 200,
+		"body": "3b7a5955-f481-42bd-a2b3-6ef8bd76b105"
+	}
+}

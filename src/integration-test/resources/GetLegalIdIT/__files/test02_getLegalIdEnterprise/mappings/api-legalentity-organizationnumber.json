@@ -1,0 +1,19 @@
+{
+	"name": "api-legalentity-organizationnumber",
+	"request": {
+		"method": "GET",
+		"urlPath": "/api-legalentity/51633ca1-a533-4e71-af82-18a1ea646573/organizationnumber",
+		"headers": {
+			"Authorization": {
+				"equalTo": "Bearer MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3"
+			}
+		}
+	},
+	"response": {
+		"headers": {
+			"Content-Type": "text/plain"
+		},
+		"status": 200,
+		"body": "5566778899"
+	}
+}

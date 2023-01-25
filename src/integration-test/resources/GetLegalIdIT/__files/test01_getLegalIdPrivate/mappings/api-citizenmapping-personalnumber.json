@@ -1,0 +1,19 @@
+{
+	"name": "api-citizenmapping-personalnumber",
+	"request": {
+		"method": "GET",
+		"urlPath": "/api-citizenmapping/citizenmapping/fbeac2e0-6a30-411f-b083-4a53578cb6d4/personalnumber",
+		"headers": {
+			"Authorization": {
+				"equalTo": "Bearer MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3"
+			}
+		}
+	},
+	"response": {
+		"headers": {
+			"Content-Type": "text/plain"
+		},
+		"status": 200,
+		"body": "197706010123"
+	}
+}

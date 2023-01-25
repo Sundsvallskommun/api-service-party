@@ -1,0 +1,14 @@
+{
+	"name": "api-legalentity-organizationid",
+	"request": {
+		"method": "GET",
+		"urlPathPattern": "/api-legalentity/([0-9]{10}|[0-9]{12})/guid"
+	},
+	"response": {
+		"headers": {
+			"Content-Type": "text/plain"
+		},
+		"status": 200,
+		"body": "51633ca1-a533-4e71-af82-18a1ea646573"
+	}
+}

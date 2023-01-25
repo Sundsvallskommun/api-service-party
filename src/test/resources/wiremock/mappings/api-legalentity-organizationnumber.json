@@ -1,0 +1,14 @@
+{
+	"name": "api-legalentity-organizationnumber",
+	"request": {
+		"method": "GET",
+		"urlPathPattern": "/api-legalentity/(.*)/organizationnumber"
+	},
+	"response": {
+		"headers": {
+			"Content-Type": "text/plain"
+		},
+		"status": 200,
+		"body": "5566778899"
+	}
+}
