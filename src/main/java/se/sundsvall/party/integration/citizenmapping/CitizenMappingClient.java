@@ -7,11 +7,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import se.sundsvall.party.integration.citizenmapping.configuration.CitizenMappingConfiguration;
 
 @FeignClient(name = CLIENT_REGISTRATION_ID, url = "${integration.citizenmapping.url}", configuration = CitizenMappingConfiguration.class)
-@CircuitBreaker(name = CLIENT_REGISTRATION_ID)
 public interface CitizenMappingClient {
 
 	/**

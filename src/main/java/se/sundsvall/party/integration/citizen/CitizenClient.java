@@ -7,11 +7,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import se.sundsvall.party.integration.citizen.configuration.CitizenConfiguration;
 
 @FeignClient(name = CLIENT_REGISTRATION_ID, url = "${integration.citizen.url}", configuration = CitizenConfiguration.class)
-@CircuitBreaker(name = CLIENT_REGISTRATION_ID)
 public interface CitizenClient {
 
 	/**
