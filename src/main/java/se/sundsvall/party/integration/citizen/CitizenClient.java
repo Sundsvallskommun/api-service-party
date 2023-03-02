@@ -15,9 +15,9 @@ public interface CitizenClient {
 	/**
 	 * Method for retrieving personId associated to sent in personNumber
 	 * 
-	 * @param personNumber that personId shall be returned for
-	 * @return a string containing personId for sent in personNumber
-	 * @throws org.zalando.problem.ThrowableProblem
+	 * @param personNumber the person number that personId shall be returned for
+	 * @return string containing personId for sent in personNumber
+	 * @throws org.zalando.problem.ThrowableProblem when called service responds with error code
 	 */
 	@GetMapping(path = "/person/{personnumber}/guid", produces = TEXT_PLAIN_VALUE)
 	String getPersonId(@PathVariable("personnumber") String personNumber);
