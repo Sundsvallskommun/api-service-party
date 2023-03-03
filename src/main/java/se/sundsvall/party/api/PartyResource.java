@@ -8,8 +8,6 @@ import static org.zalando.problem.Status.BAD_REQUEST;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +35,6 @@ import se.sundsvall.party.service.PartyService;
 @Tag(name = "Party", description = "Party operations")
 public class PartyResource {
 
-	private static final Logger LOG = LoggerFactory.getLogger(PartyResource.class);
 	private static final ValidOrganizationNumberConstraintValidator ENTERPRISE_VALIDATOR = new ValidOrganizationNumberConstraintValidator();
 	private static final ValidPersonalNumberConstraintValidator PRIVATE_VALIDATOR = new ValidPersonalNumberConstraintValidator();
 	private static final String ENTERPRISE_VALIDATION_ERROR_MESSAGE = ENTERPRISE_VALIDATOR.getMessage() + " or " + PRIVATE_VALIDATOR.getMessage().substring(PRIVATE_VALIDATOR.getMessage().indexOf("^"));
@@ -54,7 +51,6 @@ public class PartyResource {
 	public ResponseEntity<String> getPartyIdByLegalId(
 		@Parameter(name = "type", description = "Party type", required = true) @PathVariable(name = "type") PartyType type,
 		@Parameter(name = "legalId", description = "Legal-ID", required = true, example = "5565125584") @PathVariable(name = "legalId") String legalId) {
-		LOG.debug("Received getPartyIdByLegalId request for type: '{}', legalId: '{}'", type, legalId);
 		
 		switch (type) {
 			case ENTERPRISE -> validateEnterpriseLegalId(legalId);
@@ -74,7 +70,6 @@ public class PartyResource {
 	public ResponseEntity<String> getLegalIdByPartyId(
 		@Parameter(name = "type", description = "Party type", required = true) @PathVariable(name = "type") PartyType type,
 		@Parameter(name = "partyId", description = "Universally unique identifier for the party", required = true, example = "81471222-5798-11e9-ae24-57fa13b361e1") @ValidUuid @PathVariable(name = "partyId") String partyId) {
-		LOG.debug("Received getLegalIdByPartyId request for type: '{}', partyId: '{}'", type, partyId);
 
 		return ok().contentType(TEXT_PLAIN).body(service.getLegalId(type, partyId));
 	}
