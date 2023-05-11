@@ -16,13 +16,13 @@ import se.sundsvall.dept44.configuration.feign.decoder.ProblemErrorDecoder;
 @Import(FeignConfiguration.class)
 public class LegalEntityConfiguration {
 
-	public static final String CLIENT_REGISTRATION_ID = "legalentity";
+	public static final String CLIENT_ID = "legalentity";
 
 	@Bean
 	FeignBuilderCustomizer feignBuilderCustomizer(LegalEntityProperties legalEntityProperties, ClientRegistrationRepository clientRegistrationRepository) {
 		return FeignMultiCustomizer.create()
-			.withErrorDecoder(new ProblemErrorDecoder(CLIENT_REGISTRATION_ID, List.of(NOT_FOUND.value())))
-			.withRetryableOAuth2InterceptorForClientRegistration(clientRegistrationRepository.findByRegistrationId(CLIENT_REGISTRATION_ID))
+			.withErrorDecoder(new ProblemErrorDecoder(CLIENT_ID, List.of(NOT_FOUND.value())))
+			.withRetryableOAuth2InterceptorForClientRegistration(clientRegistrationRepository.findByRegistrationId(CLIENT_ID))
 			.withRequestTimeoutsInSeconds(legalEntityProperties.connectTimeout(), legalEntityProperties.readTimeout())
 			.composeCustomizersToOne();
 	}

@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static se.sundsvall.party.integration.citizenmapping.configuration.CitizenMappingConfiguration.CLIENT_REGISTRATION_ID;
+import static se.sundsvall.party.integration.citizenmapping.configuration.CitizenMappingConfiguration.CLIENT_ID;
 
 import java.util.List;
 
@@ -61,13 +61,13 @@ class CitizenMappingConfigurationTest {
 			ArgumentCaptor<ProblemErrorDecoder> errorDecoderCaptor = ArgumentCaptor.forClass(ProblemErrorDecoder.class);
 
 			verify(feignMultiCustomizerSpy).withErrorDecoder(errorDecoderCaptor.capture());
-			verify(clientRegistrationRepositoryMock).findByRegistrationId(CLIENT_REGISTRATION_ID);
+			verify(clientRegistrationRepositoryMock).findByRegistrationId(CLIENT_ID);
 			verify(feignMultiCustomizerSpy).withRetryableOAuth2InterceptorForClientRegistration(same(clientRegistrationMock));
 			verify(feignMultiCustomizerSpy).withRequestTimeoutsInSeconds(5, 30);
 			verify(feignMultiCustomizerSpy).composeCustomizersToOne();
 
 			assertThat(errorDecoderCaptor.getValue())
-				.hasFieldOrPropertyWithValue("integrationName", CLIENT_REGISTRATION_ID)
+				.hasFieldOrPropertyWithValue("integrationName", CLIENT_ID)
 				.hasFieldOrPropertyWithValue("bypassResponseCodes", List.of(NOT_FOUND.value()));
 			assertThat(customizer).isSameAs(feignBuilderCustomizerMock);
 		}

@@ -1,6 +1,6 @@
 package se.sundsvall.party.integration.citizenmapping;
 
-import static se.sundsvall.party.integration.citizenmapping.configuration.CitizenMappingConfiguration.CLIENT_REGISTRATION_ID;
+import static se.sundsvall.party.integration.citizenmapping.configuration.CitizenMappingConfiguration.CLIENT_ID;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import se.sundsvall.party.integration.citizenmapping.configuration.CitizenMappingConfiguration;
 
-@FeignClient(name = CLIENT_REGISTRATION_ID, url = "${integration.citizenmapping.url}", configuration = CitizenMappingConfiguration.class)
+@FeignClient(name = CLIENT_ID, url = "${integration.citizenmapping.url}", configuration = CitizenMappingConfiguration.class)
 public interface CitizenMappingClient {
 
 	/**

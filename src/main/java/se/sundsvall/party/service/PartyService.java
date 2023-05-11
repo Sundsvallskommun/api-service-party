@@ -13,6 +13,7 @@ import se.sundsvall.party.integration.legalentity.LegalEntityClient;
 
 @Service
 public class PartyService {
+
 	@Autowired
 	private CitizenMappingClient citizenMappingClient;
 
@@ -22,23 +23,27 @@ public class PartyService {
 	@Autowired
 	private LegalEntityClient legalEntityClient;
 
-	public String getLegalId(PartyType type, String partyId) {
-		if (isNull(type)) return null;
+	public String getLegalId(final PartyType type, final String partyId) {
+		if (isNull(type)) {
+			return null;
+		}
 		return switch (type) {
 			case ENTERPRISE -> removeQutationMarks(legalEntityClient.getOrganizationNumber(partyId));
 			case PRIVATE -> removeQutationMarks(citizenMappingClient.getPersonalNumber(partyId));
 		};
 	}
 
-	public String getPartyId(PartyType type, String legalId) {
-		if (isNull(type)) return null;
+	public String getPartyId(final PartyType type, final String legalId) {
+		if (isNull(type)) {
+			return null;
+		}
 		return switch (type) {
 			case ENTERPRISE -> removeQutationMarks(legalEntityClient.getOrganizationId(legalId));
 			case PRIVATE -> removeQutationMarks(citizenClient.getPersonId(legalId));
 		};
 	}
 
-	private static String removeQutationMarks(String string) {
+	private static String removeQutationMarks(final String string) {
 		return strip(string, "\"");
 	}
 }
