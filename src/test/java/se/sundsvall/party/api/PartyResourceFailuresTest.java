@@ -1,8 +1,11 @@
 package se.sundsvall.party.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.groups.Tuple.tuple;
 import static org.mockito.Mockito.verifyNoInteractions;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON;
+import static org.zalando.problem.Status.BAD_REQUEST;
 import static se.sundsvall.party.api.model.PartyType.ENTERPRISE;
 import static se.sundsvall.party.api.model.PartyType.PRIVATE;
 
@@ -12,11 +15,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.zalando.problem.violations.ConstraintViolationProblem;
+import org.zalando.problem.violations.Violation;
 
 import se.sundsvall.party.Application;
 import se.sundsvall.party.service.PartyService;
 
-@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @ActiveProfiles("junit")
 class PartyResourceFailuresTest {
 
@@ -32,54 +37,78 @@ class PartyResourceFailuresTest {
 
 	@Test
 	void validateWrongFormatOnLegalIdForEnterprise() {
-		var type = ENTERPRISE.name();
-		var legalId = "1234";
-		
-		webTestClient.get().uri("/{type}/{legalId}/partyId", type, legalId)
+
+		// Arrange
+		final var type = ENTERPRISE.name();
+		final var legalId = "1234";
+
+		// Act
+		final var response = webTestClient.get().uri("/{type}/{legalId}/partyId", type, legalId)
 			.exchange()
 			.expectStatus().isBadRequest()
 			.expectHeader().contentType(APPLICATION_PROBLEM_JSON)
-			.expectBody()
-			.jsonPath("$.title").isEqualTo("Constraint Violation")
-			.jsonPath("$.status").isEqualTo(BAD_REQUEST.value())
-			.jsonPath("$.violations[0].field").isEqualTo("getPartyIdByLegalId.legalId")
-			.jsonPath("$.violations[0].message").isEqualTo(ENTERPRISE_VALIDATION_MESSAGE);
+			.expectBody(ConstraintViolationProblem.class)
+			.returnResult()
+			.getResponseBody();
+
+		// Assert
+		assertThat(response.getTitle()).isEqualTo("Constraint Violation");
+		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
+		assertThat(response.getViolations())
+			.extracting(Violation::getField, Violation::getMessage)
+			.containsExactly(tuple("getPartyIdByLegalId.legalId", ENTERPRISE_VALIDATION_MESSAGE));
 
 		verifyNoInteractions(serviceMock);
 	}
 
 	@Test
 	void validateWrongFormatOnLegalIdForPrivate() {
-		var type = PRIVATE.name();
-		var legalId = "1234";
-		
-		webTestClient.get().uri("/{type}/{legalId}/partyId", type, legalId)
+
+		// Arrange
+		final var type = PRIVATE.name();
+		final var legalId = "1234";
+
+		// Act
+		final var response = webTestClient.get().uri("/{type}/{legalId}/partyId", type, legalId)
 			.exchange()
 			.expectStatus().isBadRequest()
 			.expectHeader().contentType(APPLICATION_PROBLEM_JSON)
-			.expectBody()
-			.jsonPath("$.title").isEqualTo("Constraint Violation")
-			.jsonPath("$.status").isEqualTo(BAD_REQUEST.value())
-			.jsonPath("$.violations[0].field").isEqualTo("getPartyIdByLegalId.legalId")
-			.jsonPath("$.violations[0].message").isEqualTo(PRIVATE_VALIDATION_MESSAGE);
+			.expectBody(ConstraintViolationProblem.class)
+			.returnResult()
+			.getResponseBody();
+
+		// Assert
+		assertThat(response.getTitle()).isEqualTo("Constraint Violation");
+		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
+		assertThat(response.getViolations())
+			.extracting(Violation::getField, Violation::getMessage)
+			.containsExactly(tuple("getPartyIdByLegalId.legalId", PRIVATE_VALIDATION_MESSAGE));
 
 		verifyNoInteractions(serviceMock);
 	}
-	
+
 	@Test
 	void validateWrongFormatOnPartyId() {
-		var type = ENTERPRISE.name();
-		var partyId = "81471222-5798-11e9-ae24-57fa13b361ex";
-		
-		webTestClient.get().uri("/{type}/{partyId}/legalId", type, partyId)
+
+		// Arrange
+		final var type = ENTERPRISE.name();
+		final var partyId = "81471222-5798-11e9-ae24-57fa13b361ex";
+
+		// Act
+		final var response = webTestClient.get().uri("/{type}/{partyId}/legalId", type, partyId)
 			.exchange()
 			.expectStatus().isBadRequest()
 			.expectHeader().contentType(APPLICATION_PROBLEM_JSON)
-			.expectBody()
-			.jsonPath("$.title").isEqualTo("Constraint Violation")
-			.jsonPath("$.status").isEqualTo(BAD_REQUEST.value())
-			.jsonPath("$.violations[0].field").isEqualTo("getLegalIdByPartyId.partyId")
-			.jsonPath("$.violations[0].message").isEqualTo(UUID_VALIDATION_MESSAGE);
+			.expectBody(ConstraintViolationProblem.class)
+			.returnResult()
+			.getResponseBody();
+
+		// Assert
+		assertThat(response.getTitle()).isEqualTo("Constraint Violation");
+		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
+		assertThat(response.getViolations())
+			.extracting(Violation::getField, Violation::getMessage)
+			.containsExactly(tuple("getLegalIdByPartyId.partyId", UUID_VALIDATION_MESSAGE));
 
 		verifyNoInteractions(serviceMock);
 	}

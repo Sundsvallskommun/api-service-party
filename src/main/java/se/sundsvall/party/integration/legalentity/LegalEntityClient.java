@@ -1,6 +1,6 @@
 package se.sundsvall.party.integration.legalentity;
 
-import static se.sundsvall.party.integration.legalentity.configuration.LegalEntityConfiguration.CLIENT_REGISTRATION_ID;
+import static se.sundsvall.party.integration.legalentity.configuration.LegalEntityConfiguration.CLIENT_ID;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import se.sundsvall.party.integration.legalentity.configuration.LegalEntityConfiguration;
 
-@FeignClient(name = CLIENT_REGISTRATION_ID, url = "${integration.legalentity.url}", configuration = LegalEntityConfiguration.class)
+@FeignClient(name = CLIENT_ID, url = "${integration.legalentity.url}", configuration = LegalEntityConfiguration.class)
 public interface LegalEntityClient {
 
 	/**
