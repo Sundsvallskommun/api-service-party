@@ -15,10 +15,9 @@
 	<properties>
 		<!-- Pipeline properties -->
 		<docker.image.name>ms-party</docker.image.name>
-		<published.container.port.sandbox>10010</published.container.port.sandbox>
 		<published.container.port.test>10011</published.container.port.test>
 		<published.container.port.production>10011</published.container.port.production>
-		<sandbox.db>false</sandbox.db>
+		 
 	</properties>
 	<dependencies>
 		<dependency>
