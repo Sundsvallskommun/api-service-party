@@ -3,7 +3,6 @@ package se.sundsvall.party.service;
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.strip;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import se.sundsvall.party.api.model.PartyType;
@@ -14,14 +13,15 @@ import se.sundsvall.party.integration.legalentity.LegalEntityClient;
 @Service
 public class PartyService {
 
-	@Autowired
-	private CitizenMappingClient citizenMappingClient;
+	private final CitizenMappingClient citizenMappingClient;
+	private final CitizenClient citizenClient;
+	private final LegalEntityClient legalEntityClient;
 
-	@Autowired
-	private CitizenClient citizenClient;
-
-	@Autowired
-	private LegalEntityClient legalEntityClient;
+	public PartyService(CitizenMappingClient citizenMappingClient, CitizenClient citizenClient, LegalEntityClient legalEntityClient) {
+		this.citizenMappingClient = citizenMappingClient;
+		this.citizenClient = citizenClient;
+		this.legalEntityClient = legalEntityClient;
+	}
 
 	public String getLegalId(final PartyType type, final String partyId) {
 		if (isNull(type)) {

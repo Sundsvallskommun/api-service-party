@@ -1,0 +1,28 @@
+integration:
+  citizen:
+    url: http://citizen.url
+  citizenmapping:
+    url: http://citizenmapping.url
+  legalentity:
+    url: http://legalentity.url
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          citizen:
+            token-uri: http://token.url
+          citizenmapping:
+            token-uri: http://token.url
+          legalentity:
+            token-uri: http://token.url
+        registration:
+          citizen:
+            client-id: the-client-id
+            client-secret: the-client-secret
+          citizenmapping:
+            client-id: the-client-id
+            client-secret: the-client-secret
+          legalentity:
+            client-id: the-client-id
+            client-secret: the-client-secret

@@ -8,7 +8,6 @@ import static org.zalando.problem.Status.BAD_REQUEST;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,10 +37,13 @@ public class PartyResource {
 	private static final ValidOrganizationNumberConstraintValidator ENTERPRISE_VALIDATOR = new ValidOrganizationNumberConstraintValidator();
 	private static final ValidPersonalNumberConstraintValidator PRIVATE_VALIDATOR = new ValidPersonalNumberConstraintValidator();
 	private static final String ENTERPRISE_VALIDATION_ERROR_MESSAGE = ENTERPRISE_VALIDATOR.getMessage() + " or " + PRIVATE_VALIDATOR.getMessage().substring(PRIVATE_VALIDATOR.getMessage().indexOf("^"));
-	
-	@Autowired
-	private PartyService service;
-	
+
+	private final PartyService service;
+
+	public PartyResource(PartyService service) {
+		this.service = service;
+	}
+
 	@GetMapping(path = "/{type}/{legalId}/partyId", produces = { TEXT_PLAIN_VALUE, APPLICATION_PROBLEM_JSON_VALUE })
 	@Operation(summary = "Get partys unique identifier by legal-ID")
 	@ApiResponse(responseCode = "200", description = "Successful Operation", content = @Content(mediaType = TEXT_PLAIN_VALUE, schema = @Schema(implementation = String.class)))
@@ -51,7 +53,7 @@ public class PartyResource {
 	public ResponseEntity<String> getPartyIdByLegalId(
 		@Parameter(name = "type", description = "Party type", required = true) @PathVariable(name = "type") PartyType type,
 		@Parameter(name = "legalId", description = "Legal-ID", required = true, example = "5565125584") @PathVariable(name = "legalId") String legalId) {
-		
+
 		switch (type) {
 			case ENTERPRISE -> validateEnterpriseLegalId(legalId);
 			case PRIVATE -> validatePrivateLegalId(legalId);
@@ -73,7 +75,7 @@ public class PartyResource {
 
 		return ok().contentType(TEXT_PLAIN).body(service.getLegalId(type, partyId));
 	}
-	
+
 	private void validateEnterpriseLegalId(String legalId) {
 		if (!ENTERPRISE_VALIDATOR.isValid(legalId) && !PRIVATE_VALIDATOR.isValid(legalId)) { // Check if it is a valid organization number for an enterprise company or an individual company
 			throw new ConstraintViolationProblem(BAD_REQUEST, List.of(new Violation("getPartyIdByLegalId.legalId", ENTERPRISE_VALIDATION_ERROR_MESSAGE)));
