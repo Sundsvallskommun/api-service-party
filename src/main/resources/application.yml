@@ -20,10 +20,8 @@ resilience4j:
     instances:
       citizen:
         ignoreExceptions: se.sundsvall.dept44.exception.ClientProblem
-      citizenmapping:
-        ignoreExceptions: 'se.sundsvall.dept44.exception.ClientProblem    '
       legalentity:
-        ignoreExceptions: 'se.sundsvall.dept44.exception.ClientProblem    '
+        ignoreExceptions: se.sundsvall.dept44.exception.ClientProblem
 spring:
   application:
     name: api-party
@@ -34,9 +32,6 @@ spring:
           citizen:
             authorization-grant-type: client_credentials
             provider: citizen
-          citizenmapping:
-            authorization-grant-type: client_credentials
-            provider: citizenmapping
           legalentity:
             authorization-grant-type: client_credentials
             provider: legalentity
