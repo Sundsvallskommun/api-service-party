@@ -1,8 +1,6 @@
 integration:
   citizen:
     url: http://localhost:${wiremock.server.port:}/api-citizen
-  citizenmapping:
-    url: http://localhost:${wiremock.server.port:}/api-citizenmapping
   legalentity:
     url: http://localhost:${wiremock.server.port:}/api-legalentity
 spring:
@@ -12,15 +10,10 @@ spring:
         provider:
           citizen:
             token-uri: http://localhost:${wiremock.server.port:}/api-gateway/token
-          citizenmapping:
-            token-uri: http://localhost:${wiremock.server.port:}/api-gateway/token
           legalentity:
             token-uri: http://localhost:${wiremock.server.port:}/api-gateway/token
         registration:
           citizen:
-            client-id: the-client-id
-            client-secret: the-client-secret
-          citizenmapping:
             client-id: the-client-id
             client-secret: the-client-secret
           legalentity:
