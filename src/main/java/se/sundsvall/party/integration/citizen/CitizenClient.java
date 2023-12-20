@@ -13,12 +13,22 @@ import se.sundsvall.party.integration.citizen.configuration.CitizenConfiguration
 public interface CitizenClient {
 
 	/**
-	 * Method for retrieving personId associated to sent in personNumber
-	 * 
-	 * @param personNumber the person number that personId shall be returned for
-	 * @return string containing personId for sent in personNumber
-	 * @throws org.zalando.problem.ThrowableProblem when called service responds with error code
+	 * Method for retrieving personId associated with the provided personal identity number.
+	 *
+	 * @param  personalNumber                       the personal identity number.
+	 * @return                                      string containing personId for sent in personal identity number.
+	 * @throws org.zalando.problem.ThrowableProblem when called service responds with error code.
 	 */
-	@GetMapping(path = "/person/{personnumber}/guid", produces = TEXT_PLAIN_VALUE)
-	String getPersonId(@PathVariable("personnumber") String personNumber);
+	@GetMapping(path = "/{personalNumber}/guid", produces = TEXT_PLAIN_VALUE)
+	String getPersonId(@PathVariable("personalNumber") String personalNumber);
+
+	/**
+	 * Method for retrieving personal identity number associated with the provided personId.
+	 *
+	 * @param  personId                             the personId.
+	 * @return                                      string containing personal identity number for sent in personId.
+	 * @throws org.zalando.problem.ThrowableProblem when called service responds with error code.
+	 */
+	@GetMapping(path = "/{personId}/personnumber", produces = TEXT_PLAIN_VALUE)
+	String getPersonalNumber(@PathVariable("personId") String personId);
 }
