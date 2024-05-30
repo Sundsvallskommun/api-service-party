@@ -13,10 +13,6 @@
 	<name>api-service-party</name>
 	<description>Service for converting partyId to and from personal or organization number</description>
 	<properties>
-		<!-- Pipeline properties -->
-		<docker.image.name>ms-party</docker.image.name>
-		<published.container.port.test>10011</published.container.port.test>
-		<published.container.port.production>10011</published.container.port.production>
 	</properties>
 	<dependencies>
 		<dependency>
