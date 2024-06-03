@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 
 import org.junit.jupiter.api.Test;
 
+import net.jcip.annotations.NotThreadSafe;
 import se.sundsvall.dept44.test.AbstractAppTest;
 import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
 import se.sundsvall.party.Application;
@@ -21,6 +22,7 @@ import se.sundsvall.party.Application;
  * Get partyId by legalId tests.
  */
 @WireMockAppTestSuite(files = "classpath:/GetPartyIdIT/", classes = Application.class)
+@NotThreadSafe
 class GetPartyIdIT extends AbstractAppTest {
 
 	private final static Entry<String, List<String>> EXPECTED_OK_CONTENT_TYPE_HEADER = entry(CONTENT_TYPE, List.of(TEXT_PLAIN_VALUE));
