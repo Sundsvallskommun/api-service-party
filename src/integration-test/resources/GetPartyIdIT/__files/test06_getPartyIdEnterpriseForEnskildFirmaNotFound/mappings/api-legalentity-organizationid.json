@@ -2,7 +2,7 @@
 	"name": "api-legalentity-organizationnumber",
 	"request": {
 		"method": "GET",
-		"urlPath": "/api-legalentity/197706010123/guid",
+		"urlPath": "/api-legalentity/197806010123/guid",
 		"headers": {
 			"Authorization": {
 				"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"
@@ -18,7 +18,7 @@
 			"type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
 			"title": "The organization was not found.",
 			"status": 404,
-			"detail": "An organization with organizationNumber 5566778899 was not found",
+			"detail": "An organization with organizationNumber 197806010123 was not found",
 			"traceId": "00-1b3a13365c4007113d90aaa7200e12f3-f16fd194bf1a7ec1-00"
 		}
 	}

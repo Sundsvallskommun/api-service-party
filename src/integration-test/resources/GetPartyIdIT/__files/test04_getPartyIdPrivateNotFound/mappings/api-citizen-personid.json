@@ -2,7 +2,7 @@
 	"name": "api-citizen-personid",
 	"request": {
 		"method": "GET",
-		"urlPath": "/api-citizen/197706010123/guid",
+		"urlPath": "/api-citizen/197806010123/guid",
 		"headers": {
 			"Authorization": {
 				"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"

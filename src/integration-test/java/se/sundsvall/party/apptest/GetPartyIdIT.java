@@ -13,7 +13,6 @@ import java.util.Map.Entry;
 
 import org.junit.jupiter.api.Test;
 
-import net.jcip.annotations.NotThreadSafe;
 import se.sundsvall.dept44.test.AbstractAppTest;
 import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
 import se.sundsvall.party.Application;
@@ -22,7 +21,6 @@ import se.sundsvall.party.Application;
  * Get partyId by legalId tests.
  */
 @WireMockAppTestSuite(files = "classpath:/GetPartyIdIT/", classes = Application.class)
-@NotThreadSafe
 class GetPartyIdIT extends AbstractAppTest {
 
 	private final static Entry<String, List<String>> EXPECTED_OK_CONTENT_TYPE_HEADER = entry(CONTENT_TYPE, List.of(TEXT_PLAIN_VALUE));
@@ -64,7 +62,7 @@ class GetPartyIdIT extends AbstractAppTest {
 	@Test
 	void test04_getPartyIdPrivateNotFound() throws Exception {
 		setupCall()
-			.withServicePath("/PRIVATE/197706010123/partyId")
+			.withServicePath("/PRIVATE/197806010123/partyId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(NOT_FOUND)
 			.withExpectedResponseHeader(EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getKey(), EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getValue())
@@ -75,7 +73,7 @@ class GetPartyIdIT extends AbstractAppTest {
 	@Test
 	void test05_getPartyIdEnterpriseForAktieBolagNotFound() throws Exception {
 		setupCall()
-			.withServicePath("/ENTERPRISE/5566778899/partyId")
+			.withServicePath("/ENTERPRISE/5566778890/partyId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(NOT_FOUND)
 			.withExpectedResponseHeader(EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getKey(), EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getValue())
@@ -86,7 +84,7 @@ class GetPartyIdIT extends AbstractAppTest {
 	@Test
 	void test06_getPartyIdEnterpriseForEnskildFirmaNotFound() throws Exception {
 		setupCall()
-			.withServicePath("/ENTERPRISE/197706010123/partyId")
+			.withServicePath("/ENTERPRISE/197806010123/partyId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(NOT_FOUND)
 			.withExpectedResponseHeader(EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getKey(), EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getValue())
