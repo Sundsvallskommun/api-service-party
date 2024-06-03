@@ -71,20 +71,9 @@ class GetPartyIdIT extends AbstractAppTest {
 	}
 
 	@Test
-	void test05_getPartyIdEnterpriseForAktieBolagNotFound() throws Exception {
+	void test05_getPartyIdEnterpriseNotFound() throws Exception {
 		setupCall()
 			.withServicePath("/ENTERPRISE/5566778890/partyId")
-			.withHttpMethod(GET)
-			.withExpectedResponseStatus(NOT_FOUND)
-			.withExpectedResponseHeader(EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getKey(), EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getValue())
-			.withExpectedResponse("response.json")
-			.sendRequestAndVerifyResponse();
-	}
-
-	@Test
-	void test06_getPartyIdEnterpriseForEnskildFirmaNotFound() throws Exception {
-		setupCall()
-			.withServicePath("/ENTERPRISE/197806010123/partyId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(NOT_FOUND)
 			.withExpectedResponseHeader(EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getKey(), EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getValue())
