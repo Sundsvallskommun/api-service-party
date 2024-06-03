@@ -2,7 +2,7 @@
 	"name": "api-legalentity-organizationnumber",
 	"request": {
 		"method": "GET",
-		"urlPath": "/api-legalentity/51633ca1-a533-4e71-af82-18a1ea646573/organizationnumber",
+		"urlPath": "/api-legalentity/5566778890/guid",
 		"headers": {
 			"Authorization": {
 				"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"
@@ -16,9 +16,9 @@
 		"status": 404,
 		"jsonBody": {
 			"type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-			"title": "The LegalEntity was not found.",
+			"title": "The organization was not found.",
 			"status": 404,
-			"detail": "A LegalEntity with id 51633ca1-a533-4e71-af82-18a1ea646573 was not found",
+			"detail": "An organization with organizationNumber 5566778890 was not found",
 			"traceId": "00-1b3a13365c4007113d90aaa7200e12f3-f16fd194bf1a7ec1-00"
 		}
 	}
