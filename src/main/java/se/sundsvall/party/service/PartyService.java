@@ -23,7 +23,7 @@ public class PartyService {
 		this.legalEntityClient = legalEntityClient;
 	}
 
-	public String getLegalId(final PartyType type, final String partyId) {
+	public String getLegalId(final String municipalityId, final PartyType type, final String partyId) {
 		return Optional.ofNullable(type)
 			.map(partyType -> (switch (partyType)
 			{
@@ -33,7 +33,7 @@ public class PartyService {
 			.orElseThrow(() -> Problem.valueOf(NOT_FOUND, "No legalId found!"));
 	}
 
-	public String getPartyId(final PartyType type, final String legalId) {
+	public String getPartyId(final String municipalityId, final PartyType type, final String legalId) {
 		return Optional.ofNullable(type)
 			.map(partyType -> (switch (partyType)
 			{

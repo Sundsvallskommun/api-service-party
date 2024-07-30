@@ -27,7 +27,7 @@ class GetLegalIdIT extends AbstractAppTest {
 	@Test
 	void test01_getLegalIdPrivate() throws Exception {
 		setupCall()
-			.withServicePath("/PRIVATE/fbeac2e0-6a30-411f-b083-4a53578cb6d4/legalId")
+			.withServicePath("/2281/PRIVATE/fbeac2e0-6a30-411f-b083-4a53578cb6d4/legalId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(OK)
 			.withExpectedResponseHeader(EXPECTED_SUCCESS_CONTENT_TYPE_HEADER.getKey(), EXPECTED_SUCCESS_CONTENT_TYPE_HEADER.getValue())
@@ -38,7 +38,7 @@ class GetLegalIdIT extends AbstractAppTest {
 	@Test
 	void test02_getLegalIdEnterprise() throws Exception {
 		setupCall()
-			.withServicePath("/ENTERPRISE/51633ca1-a533-4e71-af82-18a1ea646573/legalId")
+			.withServicePath("/2281/ENTERPRISE/51633ca1-a533-4e71-af82-18a1ea646573/legalId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(OK)
 			.withExpectedResponseHeader(EXPECTED_SUCCESS_CONTENT_TYPE_HEADER.getKey(), EXPECTED_SUCCESS_CONTENT_TYPE_HEADER.getValue())
@@ -49,7 +49,7 @@ class GetLegalIdIT extends AbstractAppTest {
 	@Test
 	void test03_getLegalIdPrivateNotFound() throws Exception {
 		setupCall()
-			.withServicePath("/PRIVATE/fbeac2e0-6a30-411f-b083-4a53578cb6d4/legalId")
+			.withServicePath("/2281/PRIVATE/fbeac2e0-6a30-411f-b083-4a53578cb6d4/legalId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(HttpStatus.NOT_FOUND)
 			.withExpectedResponse("response.json")
@@ -59,11 +59,10 @@ class GetLegalIdIT extends AbstractAppTest {
 	@Test
 	void test04_getLegalIdEnterpriseNotFound() throws Exception {
 		setupCall()
-			.withServicePath("/ENTERPRISE/51633ca1-a533-4e71-af82-18a1ea646573/legalId")
+			.withServicePath("/2281/ENTERPRISE/51633ca1-a533-4e71-af82-18a1ea646573/legalId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(HttpStatus.NOT_FOUND)
 			.withExpectedResponse("response.json")
 			.sendRequestAndVerifyResponse();
 	}
-
 }
