@@ -31,63 +31,65 @@ class PartyResourceTest {
 	void getPartyIdByEnterpriseLegalId() {
 
 		// Arrange
+		final var municipalityId = "2281";
 		final var type = ENTERPRISE.name();
 		final var legalId = "5566123456";
 		final var partyId = "81471222-5798-11e9-ae24-57fa13b361e1";
 
-		when(serviceMock.getPartyId(ENTERPRISE, legalId)).thenReturn(partyId);
+		when(serviceMock.getPartyId(municipalityId, ENTERPRISE, legalId)).thenReturn(partyId);
 
 		// Act
-		webTestClient.get().uri("/{type}/{legalId}/partyId", type, legalId)
+		webTestClient.get().uri("/{municipalityId}/{type}/{legalId}/partyId", municipalityId, type, legalId)
 			.exchange()
 			.expectStatus().isOk()
 			.expectHeader().contentType(TEXT_PLAIN)
 			.expectBody(String.class).isEqualTo(partyId);
 
 		// Assert
-		verify(serviceMock).getPartyId(ENTERPRISE, legalId);
+		verify(serviceMock).getPartyId(municipalityId, ENTERPRISE, legalId);
 	}
 
 	@Test
 	void getPartyIdByPrivateLegalId() {
 
 		// Arrange
+		final var municipalityId = "2281";
 		final var type = PRIVATE.name();
 		final var legalId = "200001011234";
 		final var partyId = "81471222-5798-11e9-ae24-57fa13b361e2";
 
-		when(serviceMock.getPartyId(PRIVATE, legalId)).thenReturn(partyId);
+		when(serviceMock.getPartyId(municipalityId, PRIVATE, legalId)).thenReturn(partyId);
 
 		// Act
-		webTestClient.get().uri("/{type}/{legalId}/partyId", type, legalId)
+		webTestClient.get().uri("/{municipalityId}/{type}/{legalId}/partyId", municipalityId, type, legalId)
 			.exchange()
 			.expectStatus().isOk()
 			.expectHeader().contentType(TEXT_PLAIN)
 			.expectBody(String.class).isEqualTo(partyId);
 
 		// Assert
-		verify(serviceMock).getPartyId(PRIVATE, legalId);
+		verify(serviceMock).getPartyId(municipalityId, PRIVATE, legalId);
 	}
 
 	@Test
 	void getLegalIdByPartyId() {
 
 		// Arrange
+		final var municipalityId = "2281";
 		final var type = PRIVATE.name();
 		final var partyId = "81471222-5798-11e9-ae24-57fa13b361e1";
 		final var legalId = "200001011234";
 
-		when(serviceMock.getLegalId(PRIVATE, partyId)).thenReturn(legalId);
+		when(serviceMock.getLegalId(municipalityId, PRIVATE, partyId)).thenReturn(legalId);
 
 		// Act
-		webTestClient.get().uri("/{type}/{partyId}/legalId", type, partyId)
+		webTestClient.get().uri("/{municipalityId}/{type}/{partyId}/legalId", municipalityId, type, partyId)
 			.exchange()
 			.expectStatus().isOk()
 			.expectHeader().contentType(TEXT_PLAIN)
 			.expectBody(String.class).isEqualTo(legalId);
 
 		// Assert
-		verify(serviceMock).getLegalId(PRIVATE, partyId);
+		verify(serviceMock).getLegalId(municipalityId, PRIVATE, partyId);
 	}
-
 }

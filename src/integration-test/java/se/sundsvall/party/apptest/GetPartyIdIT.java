@@ -29,7 +29,7 @@ class GetPartyIdIT extends AbstractAppTest {
 	@Test
 	void test01_getPartyIdPrivate() throws Exception {
 		setupCall()
-			.withServicePath("/PRIVATE/197706010123/partyId")
+			.withServicePath("/2281/PRIVATE/197706010123/partyId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(OK)
 			.withExpectedResponseHeader(EXPECTED_OK_CONTENT_TYPE_HEADER.getKey(), EXPECTED_OK_CONTENT_TYPE_HEADER.getValue())
@@ -40,7 +40,7 @@ class GetPartyIdIT extends AbstractAppTest {
 	@Test
 	void test02_getPartyIdEnterpriseForAktieBolag() throws Exception {
 		setupCall()
-			.withServicePath("/ENTERPRISE/5566778899/partyId")
+			.withServicePath("/2281/ENTERPRISE/5566778899/partyId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(OK)
 			.withExpectedResponseHeader(EXPECTED_OK_CONTENT_TYPE_HEADER.getKey(), EXPECTED_OK_CONTENT_TYPE_HEADER.getValue())
@@ -51,7 +51,7 @@ class GetPartyIdIT extends AbstractAppTest {
 	@Test
 	void test03_getPartyIdEnterpriseForEnskildFirma() throws Exception {
 		setupCall()
-			.withServicePath("/ENTERPRISE/197706010123/partyId")
+			.withServicePath("/2281/ENTERPRISE/197706010123/partyId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(OK)
 			.withExpectedResponseHeader(EXPECTED_OK_CONTENT_TYPE_HEADER.getKey(), EXPECTED_OK_CONTENT_TYPE_HEADER.getValue())
@@ -62,7 +62,7 @@ class GetPartyIdIT extends AbstractAppTest {
 	@Test
 	void test04_getPartyIdPrivateNotFound() throws Exception {
 		setupCall()
-			.withServicePath("/PRIVATE/197806010123/partyId")
+			.withServicePath("/2281/PRIVATE/197806010123/partyId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(NOT_FOUND)
 			.withExpectedResponseHeader(EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getKey(), EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getValue())
@@ -73,7 +73,7 @@ class GetPartyIdIT extends AbstractAppTest {
 	@Test
 	void test05_getPartyIdEnterpriseNotFound() throws Exception {
 		setupCall()
-			.withServicePath("/ENTERPRISE/5566778890/partyId")
+			.withServicePath("/2281/ENTERPRISE/5566778890/partyId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(NOT_FOUND)
 			.withExpectedResponseHeader(EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getKey(), EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER.getValue())
