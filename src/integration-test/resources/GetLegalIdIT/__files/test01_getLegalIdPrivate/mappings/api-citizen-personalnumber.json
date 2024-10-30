@@ -1,19 +1,13 @@
 {
-	"name": "api-citizen-personalnumber",
 	"request": {
+		"headers": {"Authorization": {"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"}},
 		"method": "GET",
-		"urlPath": "/api-citizen/fbeac2e0-6a30-411f-b083-4a53578cb6d4/personnumber",
-		"headers": {
-			"Authorization": {
-				"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"
-			}
-		}
+		"urlPath": "/api-citizen/fbeac2e0-6a30-411f-b083-4a53578cb6d4/personnumber"
 	},
 	"response": {
-		"headers": {
-			"Content-Type": "text/plain"
-		},
-		"status": 200,
-		"body": "197706010123"
-	}
+		"headers": {"Content-Type": "text/plain"},
+		"body": "197706010123",
+		"status": 200
+	},
+	"name": "api-citizen-personalnumber"
 }

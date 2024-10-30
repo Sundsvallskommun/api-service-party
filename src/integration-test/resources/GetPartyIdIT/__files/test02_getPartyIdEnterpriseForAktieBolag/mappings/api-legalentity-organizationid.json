@@ -1,19 +1,13 @@
 {
-	"name": "api-legalentity-organizationnumber",
 	"request": {
+		"headers": {"Authorization": {"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"}},
 		"method": "GET",
-		"urlPath": "/api-legalentity/5566778899/guid",
-		"headers": {
-			"Authorization": {
-				"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"
-			}
-		}
+		"urlPath": "/api-legalentity/5566778899/guid"
 	},
 	"response": {
-		"headers": {
-			"Content-Type": "text/plain"
-		},
-		"status": 200,
-		"body": "51633ca1-a533-4e71-af82-18a1ea646573"
-	}
+		"headers": {"Content-Type": "text/plain"},
+		"body": "51633ca1-a533-4e71-af82-18a1ea646573",
+		"status": 200
+	},
+	"name": "api-legalentity-organizationnumber"
 }

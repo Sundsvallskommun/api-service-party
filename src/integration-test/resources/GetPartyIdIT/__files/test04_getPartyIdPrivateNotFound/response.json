@@ -1,5 +1,5 @@
 {
+	"detail": "citizen error: {status=404 Not Found, title=Not Found}",
 	"title": "Not Found",
-	"status": 404,
-	"detail": "citizen error: {status=404 Not Found, title=Not Found}"
+	"status": 404
 }
