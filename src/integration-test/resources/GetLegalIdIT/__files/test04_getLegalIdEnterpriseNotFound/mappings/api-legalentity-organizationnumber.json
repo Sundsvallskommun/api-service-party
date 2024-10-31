@@ -1,25 +1,19 @@
 {
-	"name": "api-legalentity-organizationnumber",
 	"request": {
+		"headers": {"Authorization": {"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"}},
 		"method": "GET",
-		"urlPath": "/api-legalentity/51633ca1-a533-4e71-af82-18a1ea646573/organizationnumber",
-		"headers": {
-			"Authorization": {
-				"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"
-			}
-		}
+		"urlPath": "/api-legalentity/51633ca1-a533-4e71-af82-18a1ea646573/organizationnumber"
 	},
 	"response": {
-		"headers": {
-			"Content-Type": "application/problem+json"
-		},
-		"status": 404,
+		"headers": {"Content-Type": "application/problem+json"},
 		"jsonBody": {
+			"traceId": "00-1b3a13365c4007113d90aaa7200e12f3-f16fd194bf1a7ec1-00",
+			"detail": "A LegalEntity with id 51633ca1-a533-4e71-af82-18a1ea646573 was not found",
 			"type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
 			"title": "The LegalEntity was not found.",
-			"status": 404,
-			"detail": "A LegalEntity with id 51633ca1-a533-4e71-af82-18a1ea646573 was not found",
-			"traceId": "00-1b3a13365c4007113d90aaa7200e12f3-f16fd194bf1a7ec1-00"
-		}
-	}
+			"status": 404
+		},
+		"status": 404
+	},
+	"name": "api-legalentity-organizationnumber"
 }

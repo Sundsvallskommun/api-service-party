@@ -1,5 +1,5 @@
 {
+	"detail": "No legalId found!",
 	"title": "Not Found",
-	"status" :404,
-	"detail": "No legalId found!"
+	"status": 404
 }
