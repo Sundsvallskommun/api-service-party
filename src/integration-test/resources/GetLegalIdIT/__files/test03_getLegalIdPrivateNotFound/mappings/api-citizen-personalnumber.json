@@ -1,9 +1,15 @@
 {
 	"request": {
-		"headers": {"Authorization": {"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"}},
+		"headers": {
+			"Authorization": {
+				"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"
+			}
+		},
 		"method": "GET",
 		"urlPath": "/api-citizen/fbeac2e0-6a30-411f-b083-4a53578cb6d4/personnumber"
 	},
-	"response": {"status": 204},
+	"response": {
+		"status": 204
+	},
 	"name": "api-citizen-personalnumber"
 }

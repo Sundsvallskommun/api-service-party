@@ -1,11 +1,17 @@
 {
 	"request": {
-		"headers": {"Authorization": {"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"}},
+		"headers": {
+			"Authorization": {
+				"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"
+			}
+		},
 		"method": "GET",
 		"urlPath": "/api-legalentity/5566778890/guid"
 	},
 	"response": {
-		"headers": {"Content-Type": "application/problem+json"},
+		"headers": {
+			"Content-Type": "application/problem+json"
+		},
 		"jsonBody": {
 			"traceId": "00-1b3a13365c4007113d90aaa7200e12f3-f16fd194bf1a7ec1-00",
 			"detail": "An organization with organizationNumber 5566778890 was not found",
