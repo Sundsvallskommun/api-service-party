@@ -1,11 +1,17 @@
 {
 	"request": {
-		"headers": {"Authorization": {"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"}},
+		"headers": {
+			"Authorization": {
+				"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"
+			}
+		},
 		"method": "GET",
 		"urlPath": "/api-citizen/197806010123/guid"
 	},
 	"response": {
-		"headers": {"Content-Type": "application/json"},
+		"headers": {
+			"Content-Type": "application/json"
+		},
 		"jsonBody": {
 			"traceId": "00-96a41487b7f978ac721f54fbba444b2c-18b6f1c8e5159ee3-00",
 			"type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",

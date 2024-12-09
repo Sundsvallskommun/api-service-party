@@ -4,10 +4,8 @@ import static org.apache.commons.lang3.StringUtils.strip;
 import static org.zalando.problem.Status.NOT_FOUND;
 
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import org.zalando.problem.Problem;
-
 import se.sundsvall.party.api.model.PartyType;
 import se.sundsvall.party.integration.citizen.CitizenClient;
 import se.sundsvall.party.integration.legalentity.LegalEntityClient;
