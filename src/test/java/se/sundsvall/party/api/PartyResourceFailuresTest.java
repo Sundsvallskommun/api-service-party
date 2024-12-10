@@ -13,7 +13,7 @@ import static se.sundsvall.party.api.model.PartyType.PRIVATE;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.zalando.problem.violations.ConstraintViolationProblem;
@@ -30,7 +30,7 @@ class PartyResourceFailuresTest {
 	private static final String UUID_VALIDATION_MESSAGE = "not a valid UUID";
 	private static final String MUNICIPALITY_ID_VALIDATION_MESSAGE = "not a valid municipality ID";
 
-	@MockBean
+	@MockitoBean
 	private PartyService serviceMock;
 
 	@Autowired
