@@ -21,6 +21,10 @@ import se.sundsvall.party.integration.legalentity.LegalEntityClient;
 @ExtendWith(MockitoExtension.class)
 class PartyServiceTest {
 
+	private static final String PARTY_ID = "partyId";
+	private static final String LEGAL_ID = "legalId";
+	private static final String MUNICIPALITY_ID = "municipalityId";
+
 	@Mock
 	private CitizenClient citizenClientMock;
 
@@ -32,34 +36,26 @@ class PartyServiceTest {
 
 	@Test
 	void testGetLegalIdForEnterpriseType() {
-		final var municipalityId = "municipalityId";
-		final var partyId = "partyId";
-		final var legalId = "legalId";
 
-		when(legalEntityClientMock.getOrganizationNumber(partyId)).thenReturn(wrap(legalId, "\""));
+		when(legalEntityClientMock.getOrganizationNumber(PARTY_ID)).thenReturn(wrap(LEGAL_ID, "\""));
 
-		assertThat(service.getLegalId(municipalityId, ENTERPRISE, partyId)).isEqualTo(legalId);
-		verify(legalEntityClientMock).getOrganizationNumber(partyId);
+		assertThat(service.getLegalId(MUNICIPALITY_ID, ENTERPRISE, PARTY_ID)).isEqualTo(LEGAL_ID);
+		verify(legalEntityClientMock).getOrganizationNumber(PARTY_ID);
 	}
 
 	@Test
 	void testGetLegalIdForPrivateType() {
-		final var municipalityId = "municipalityId";
-		final var partyId = "partyId";
-		final var legalId = "legalId";
 
-		when(citizenClientMock.getPersonalNumber(partyId)).thenReturn(wrap(legalId, "\""));
+		when(citizenClientMock.getPersonalNumber(PARTY_ID)).thenReturn(wrap(LEGAL_ID, "\""));
 
-		assertThat(service.getLegalId(municipalityId, PRIVATE, partyId)).isEqualTo(legalId);
-		verify(citizenClientMock).getPersonalNumber(partyId);
+		assertThat(service.getLegalId(MUNICIPALITY_ID, PRIVATE, PARTY_ID)).isEqualTo(LEGAL_ID);
+		verify(citizenClientMock).getPersonalNumber(PARTY_ID);
 	}
 
 	@Test
 	void testGetLegalIdForNullType() {
-		final var municipalityId = "municipalityId";
-		final var legalId = "legalId";
 
-		final var exception = assertThrows(ThrowableProblem.class, () -> service.getLegalId(municipalityId, null, legalId));
+		final var exception = assertThrows(ThrowableProblem.class, () -> service.getLegalId(MUNICIPALITY_ID, null, LEGAL_ID));
 		assertThat(exception).hasMessage("Not Found: No legalId found!");
 
 		verifyNoInteractions(citizenClientMock, citizenClientMock, legalEntityClientMock);
@@ -67,46 +63,41 @@ class PartyServiceTest {
 
 	@Test
 	void testGetPartyIdForEnterpriseTypeForLegalIdWithoutCentury() {
-		final var municipalityId = "municipalityId";
+
 		final var legalId = "2201011234"; // LegalId without century
-		final var partyId = "partyId";
 
-		when(legalEntityClientMock.getOrganizationId(legalId)).thenReturn(wrap(partyId, "\""));
+		when(legalEntityClientMock.getOrganizationId(legalId)).thenReturn(wrap(PARTY_ID, "\""));
 
-		assertThat(service.getPartyId(municipalityId, ENTERPRISE, legalId)).isEqualTo(partyId);
+		assertThat(service.getPartyId(MUNICIPALITY_ID, ENTERPRISE, legalId)).isEqualTo(PARTY_ID);
 		verify(legalEntityClientMock).getOrganizationId(legalId);
 	}
 
 	@Test
 	void testGetPartyIdForEnterpriseTypeForLegalIdWithCentury() {
-		final var municipalityId = "municipalityId";
+
 		final var legalId = "202201011234"; // LegalId with century
-		final var partyId = "partyId";
 
-		when(legalEntityClientMock.getOrganizationId(legalId)).thenReturn(wrap(partyId, "\""));
+		when(legalEntityClientMock.getOrganizationId(legalId)).thenReturn(wrap(PARTY_ID, "\""));
 
-		assertThat(service.getPartyId(municipalityId, ENTERPRISE, legalId)).isEqualTo(partyId);
+		assertThat(service.getPartyId(MUNICIPALITY_ID, ENTERPRISE, legalId)).isEqualTo(PARTY_ID);
 		verify(legalEntityClientMock).getOrganizationId(legalId);
 	}
 
 	@Test
 	void testGetPartyIdForPrivateType() {
-		final var municipalityId = "municipalityId";
+
 		final var legalId = "202201011234"; // LegalId with century
-		final var partyId = "partyId";
 
-		when(citizenClientMock.getPersonId(legalId)).thenReturn(wrap(partyId, "\""));
+		when(citizenClientMock.getPersonId(legalId)).thenReturn(wrap(PARTY_ID, "\""));
 
-		assertThat(service.getPartyId(municipalityId, PRIVATE, legalId)).isEqualTo(partyId);
+		assertThat(service.getPartyId(MUNICIPALITY_ID, PRIVATE, legalId)).isEqualTo(PARTY_ID);
 		verify(citizenClientMock).getPersonId(legalId);
 	}
 
 	@Test
 	void testGetPartyIdForNullType() {
-		final var municipalityId = "municipalityId";
-		final var partyId = "partyId";
 
-		final var exception = assertThrows(ThrowableProblem.class, () -> service.getPartyId(municipalityId, null, partyId));
+		final var exception = assertThrows(ThrowableProblem.class, () -> service.getPartyId(MUNICIPALITY_ID, null, PARTY_ID));
 
 		assertThat(exception).hasMessage("Not Found: No partyId found!");
 		verifyNoInteractions(citizenClientMock, citizenClientMock, legalEntityClientMock);
