@@ -23,21 +23,21 @@ public class PartyService {
 
 	public String getLegalId(final String municipalityId, final PartyType type, final String partyId) {
 		return Optional.ofNullable(type)
-			.map(partyType -> (switch (partyType)
+			.map(partyType -> switch (partyType)
 			{
 				case ENTERPRISE -> removeQutationMarks(legalEntityClient.getOrganizationNumber(partyId));
 				case PRIVATE -> removeQutationMarks(citizenClient.getPersonalNumber(partyId));
-			}))
+			})
 			.orElseThrow(() -> Problem.valueOf(NOT_FOUND, "No legalId found!"));
 	}
 
 	public String getPartyId(final String municipalityId, final PartyType type, final String legalId) {
 		return Optional.ofNullable(type)
-			.map(partyType -> (switch (partyType)
+			.map(partyType -> switch (partyType)
 			{
 				case ENTERPRISE -> removeQutationMarks(legalEntityClient.getOrganizationId(legalId));
 				case PRIVATE -> removeQutationMarks(citizenClient.getPersonId(legalId));
-			}))
+			})
 			.orElseThrow(() -> Problem.valueOf(NOT_FOUND, "No partyId found!"));
 	}
 

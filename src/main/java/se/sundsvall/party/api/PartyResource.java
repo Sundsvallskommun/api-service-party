@@ -31,7 +31,7 @@ import se.sundsvall.party.service.PartyService;
 @RestController
 @Validated
 @Tag(name = "Party", description = "Party operations")
-public class PartyResource {
+class PartyResource {
 
 	private static final ValidOrganizationNumberConstraintValidator ENTERPRISE_VALIDATOR = new ValidOrganizationNumberConstraintValidator();
 	private static final ValidPersonalNumberConstraintValidator PRIVATE_VALIDATOR = new ValidPersonalNumberConstraintValidator();
@@ -39,21 +39,20 @@ public class PartyResource {
 
 	private final PartyService service;
 
-	public PartyResource(PartyService service) {
+	PartyResource(PartyService service) {
 		this.service = service;
 	}
 
-	@GetMapping(path = "/{municipalityId}/{type}/{legalId}/partyId", produces = {
-		TEXT_PLAIN_VALUE, APPLICATION_PROBLEM_JSON_VALUE
+	@GetMapping(path = "/{municipalityId}/{type}/{legalId}/partyId", produces = TEXT_PLAIN_VALUE)
+	@Operation(summary = "Get partys unique identifier by legal-ID", responses = {
+		@ApiResponse(responseCode = "200", description = "Successful Operation", useReturnTypeSchema = true),
+		@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(oneOf = {
+			Problem.class, ConstraintViolationProblem.class
+		}))),
+		@ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class))),
+		@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
 	})
-	@Operation(summary = "Get partys unique identifier by legal-ID")
-	@ApiResponse(responseCode = "200", description = "Successful Operation", content = @Content(mediaType = TEXT_PLAIN_VALUE, schema = @Schema(implementation = String.class)))
-	@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(oneOf = {
-		Problem.class, ConstraintViolationProblem.class
-	})))
-	@ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
-	@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
-	public ResponseEntity<String> getPartyIdByLegalId(
+	ResponseEntity<String> getPartyIdByLegalId(
 		@Parameter(name = "municipalityId", description = "Municipality id", example = "2281") @ValidMunicipalityId @PathVariable final String municipalityId,
 		@Parameter(name = "type", description = "Party type", required = true) @PathVariable(name = "type") PartyType type,
 		@Parameter(name = "legalId", description = "Legal-ID", required = true, example = "5565125584") @PathVariable(name = "legalId") String legalId) {
@@ -67,17 +66,16 @@ public class PartyResource {
 		return ok().contentType(TEXT_PLAIN).body(service.getPartyId(municipalityId, type, legalId));
 	}
 
-	@GetMapping(path = "/{municipalityId}/{type}/{partyId}/legalId", produces = {
-		TEXT_PLAIN_VALUE, APPLICATION_PROBLEM_JSON_VALUE
+	@GetMapping(path = "/{municipalityId}/{type}/{partyId}/legalId", produces = TEXT_PLAIN_VALUE)
+	@Operation(summary = "Get partys legal-ID by unique identifier", responses = {
+		@ApiResponse(responseCode = "200", description = "Successful Operation", useReturnTypeSchema = true),
+		@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(oneOf = {
+			Problem.class, ConstraintViolationProblem.class
+		}))),
+		@ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class))),
+		@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
 	})
-	@Operation(summary = "Get partys legal-ID by unique identifier")
-	@ApiResponse(responseCode = "200", description = "Successful Operation", content = @Content(mediaType = TEXT_PLAIN_VALUE, schema = @Schema(implementation = String.class)))
-	@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(oneOf = {
-		Problem.class, ConstraintViolationProblem.class
-	})))
-	@ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
-	@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
-	public ResponseEntity<String> getLegalIdByPartyId(
+	ResponseEntity<String> getLegalIdByPartyId(
 		@Parameter(name = "municipalityId", description = "Municipality id", example = "2281") @ValidMunicipalityId @PathVariable final String municipalityId,
 		@Parameter(name = "type", description = "Party type", required = true) @PathVariable(name = "type") PartyType type,
 		@Parameter(name = "partyId", description = "Universally unique identifier for the party", required = true, example = "81471222-5798-11e9-ae24-57fa13b361e1") @ValidUuid @PathVariable(name = "partyId") String partyId) {
