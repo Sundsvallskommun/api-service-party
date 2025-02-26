@@ -6,7 +6,7 @@
 			}
 		},
 		"method": "GET",
-		"urlPath": "/api-citizen/fbeac2e0-6a30-411f-b083-4a53578cb6d4/personnumber"
+		"urlPath": "/api-citizen/2281/fbeac2e0-6a30-411f-b083-4a53578cb6d4/personnumber"
 	},
 	"response": {
 		"status": 204

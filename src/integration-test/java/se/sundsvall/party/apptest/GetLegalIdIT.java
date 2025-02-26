@@ -8,10 +8,8 @@ import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 import java.util.List;
 import java.util.Map.Entry;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-
 import se.sundsvall.dept44.test.AbstractAppTest;
 import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
 import se.sundsvall.party.Application;
@@ -22,10 +20,10 @@ import se.sundsvall.party.Application;
 @WireMockAppTestSuite(files = "classpath:/GetLegalIdIT/", classes = Application.class)
 class GetLegalIdIT extends AbstractAppTest {
 
-	private final static Entry<String, List<String>> EXPECTED_SUCCESS_CONTENT_TYPE_HEADER = entry(CONTENT_TYPE, List.of(TEXT_PLAIN_VALUE));
+	private static final Entry<String, List<String>> EXPECTED_SUCCESS_CONTENT_TYPE_HEADER = entry(CONTENT_TYPE, List.of(TEXT_PLAIN_VALUE));
 
 	@Test
-	void test01_getLegalIdPrivate() throws Exception {
+	void test01_getLegalIdPrivate() {
 		setupCall()
 			.withServicePath("/2281/PRIVATE/fbeac2e0-6a30-411f-b083-4a53578cb6d4/legalId")
 			.withHttpMethod(GET)
@@ -36,7 +34,7 @@ class GetLegalIdIT extends AbstractAppTest {
 	}
 
 	@Test
-	void test02_getLegalIdEnterprise() throws Exception {
+	void test02_getLegalIdEnterprise() {
 		setupCall()
 			.withServicePath("/2281/ENTERPRISE/51633ca1-a533-4e71-af82-18a1ea646573/legalId")
 			.withHttpMethod(GET)
@@ -47,7 +45,7 @@ class GetLegalIdIT extends AbstractAppTest {
 	}
 
 	@Test
-	void test03_getLegalIdPrivateNotFound() throws Exception {
+	void test03_getLegalIdPrivateNotFound() {
 		setupCall()
 			.withServicePath("/2281/PRIVATE/fbeac2e0-6a30-411f-b083-4a53578cb6d4/legalId")
 			.withHttpMethod(GET)
@@ -57,7 +55,7 @@ class GetLegalIdIT extends AbstractAppTest {
 	}
 
 	@Test
-	void test04_getLegalIdEnterpriseNotFound() throws Exception {
+	void test04_getLegalIdEnterpriseNotFound() {
 		setupCall()
 			.withServicePath("/2281/ENTERPRISE/51633ca1-a533-4e71-af82-18a1ea646573/legalId")
 			.withHttpMethod(GET)

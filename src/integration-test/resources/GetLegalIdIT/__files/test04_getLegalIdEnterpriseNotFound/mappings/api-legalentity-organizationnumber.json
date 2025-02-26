@@ -6,7 +6,7 @@
 			}
 		},
 		"method": "GET",
-		"urlPath": "/api-legalentity/51633ca1-a533-4e71-af82-18a1ea646573/organizationnumber"
+		"urlPath": "/api-legalentity/2281/51633ca1-a533-4e71-af82-18a1ea646573/organizationnumber"
 	},
 	"response": {
 		"headers": {

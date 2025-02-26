@@ -37,19 +37,19 @@ class PartyServiceTest {
 	@Test
 	void testGetLegalIdForEnterpriseType() {
 
-		when(legalEntityClientMock.getOrganizationNumber(PARTY_ID)).thenReturn(wrap(LEGAL_ID, "\""));
+		when(legalEntityClientMock.getOrganizationNumber(MUNICIPALITY_ID, PARTY_ID)).thenReturn(wrap(LEGAL_ID, "\""));
 
 		assertThat(service.getLegalId(MUNICIPALITY_ID, ENTERPRISE, PARTY_ID)).isEqualTo(LEGAL_ID);
-		verify(legalEntityClientMock).getOrganizationNumber(PARTY_ID);
+		verify(legalEntityClientMock).getOrganizationNumber(MUNICIPALITY_ID, PARTY_ID);
 	}
 
 	@Test
 	void testGetLegalIdForPrivateType() {
 
-		when(citizenClientMock.getPersonalNumber(PARTY_ID)).thenReturn(wrap(LEGAL_ID, "\""));
+		when(citizenClientMock.getPersonalNumber(MUNICIPALITY_ID, PARTY_ID)).thenReturn(wrap(LEGAL_ID, "\""));
 
 		assertThat(service.getLegalId(MUNICIPALITY_ID, PRIVATE, PARTY_ID)).isEqualTo(LEGAL_ID);
-		verify(citizenClientMock).getPersonalNumber(PARTY_ID);
+		verify(citizenClientMock).getPersonalNumber(MUNICIPALITY_ID, PARTY_ID);
 	}
 
 	@Test
@@ -66,10 +66,10 @@ class PartyServiceTest {
 
 		final var legalId = "2201011234"; // LegalId without century
 
-		when(legalEntityClientMock.getOrganizationId(legalId)).thenReturn(wrap(PARTY_ID, "\""));
+		when(legalEntityClientMock.getOrganizationId(MUNICIPALITY_ID, legalId)).thenReturn(wrap(PARTY_ID, "\""));
 
 		assertThat(service.getPartyId(MUNICIPALITY_ID, ENTERPRISE, legalId)).isEqualTo(PARTY_ID);
-		verify(legalEntityClientMock).getOrganizationId(legalId);
+		verify(legalEntityClientMock).getOrganizationId(MUNICIPALITY_ID, legalId);
 	}
 
 	@Test
@@ -77,10 +77,10 @@ class PartyServiceTest {
 
 		final var legalId = "202201011234"; // LegalId with century
 
-		when(legalEntityClientMock.getOrganizationId(legalId)).thenReturn(wrap(PARTY_ID, "\""));
+		when(legalEntityClientMock.getOrganizationId(MUNICIPALITY_ID, legalId)).thenReturn(wrap(PARTY_ID, "\""));
 
 		assertThat(service.getPartyId(MUNICIPALITY_ID, ENTERPRISE, legalId)).isEqualTo(PARTY_ID);
-		verify(legalEntityClientMock).getOrganizationId(legalId);
+		verify(legalEntityClientMock).getOrganizationId(MUNICIPALITY_ID, legalId);
 	}
 
 	@Test
@@ -88,10 +88,10 @@ class PartyServiceTest {
 
 		final var legalId = "202201011234"; // LegalId with century
 
-		when(citizenClientMock.getPersonId(legalId)).thenReturn(wrap(PARTY_ID, "\""));
+		when(citizenClientMock.getPersonId(MUNICIPALITY_ID, legalId)).thenReturn(wrap(PARTY_ID, "\""));
 
 		assertThat(service.getPartyId(MUNICIPALITY_ID, PRIVATE, legalId)).isEqualTo(PARTY_ID);
-		verify(citizenClientMock).getPersonId(legalId);
+		verify(citizenClientMock).getPersonId(MUNICIPALITY_ID, legalId);
 	}
 
 	@Test

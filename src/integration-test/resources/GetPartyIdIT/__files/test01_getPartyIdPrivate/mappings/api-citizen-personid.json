@@ -6,7 +6,7 @@
 			}
 		},
 		"method": "GET",
-		"urlPath": "/api-citizen/197706010123/guid"
+		"urlPath": "/api-citizen/2281/197706010123/guid"
 	},
 	"response": {
 		"headers": {
