@@ -10,9 +10,7 @@ import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 import java.util.List;
 import java.util.Map.Entry;
-
 import org.junit.jupiter.api.Test;
-
 import se.sundsvall.dept44.test.AbstractAppTest;
 import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
 import se.sundsvall.party.Application;
@@ -23,11 +21,11 @@ import se.sundsvall.party.Application;
 @WireMockAppTestSuite(files = "classpath:/GetPartyIdIT/", classes = Application.class)
 class GetPartyIdIT extends AbstractAppTest {
 
-	private final static Entry<String, List<String>> EXPECTED_OK_CONTENT_TYPE_HEADER = entry(CONTENT_TYPE, List.of(TEXT_PLAIN_VALUE));
-	private final static Entry<String, List<String>> EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER = entry(CONTENT_TYPE, List.of(APPLICATION_PROBLEM_JSON_VALUE));
+	private static final Entry<String, List<String>> EXPECTED_OK_CONTENT_TYPE_HEADER = entry(CONTENT_TYPE, List.of(TEXT_PLAIN_VALUE));
+	private static final Entry<String, List<String>> EXPECTED_ERROR_JSON_CONTENT_TYPE_HEADER = entry(CONTENT_TYPE, List.of(APPLICATION_PROBLEM_JSON_VALUE));
 
 	@Test
-	void test01_getPartyIdPrivate() throws Exception {
+	void test01_getPartyIdPrivate() {
 		setupCall()
 			.withServicePath("/2281/PRIVATE/197706010123/partyId")
 			.withHttpMethod(GET)
@@ -38,7 +36,7 @@ class GetPartyIdIT extends AbstractAppTest {
 	}
 
 	@Test
-	void test02_getPartyIdEnterpriseForAktieBolag() throws Exception {
+	void test02_getPartyIdEnterpriseForAktieBolag() {
 		setupCall()
 			.withServicePath("/2281/ENTERPRISE/5566778899/partyId")
 			.withHttpMethod(GET)
@@ -49,7 +47,7 @@ class GetPartyIdIT extends AbstractAppTest {
 	}
 
 	@Test
-	void test03_getPartyIdEnterpriseForEnskildFirma() throws Exception {
+	void test03_getPartyIdEnterpriseForEnskildFirma() {
 		setupCall()
 			.withServicePath("/2281/ENTERPRISE/197706010123/partyId")
 			.withHttpMethod(GET)
@@ -60,7 +58,7 @@ class GetPartyIdIT extends AbstractAppTest {
 	}
 
 	@Test
-	void test04_getPartyIdPrivateNotFound() throws Exception {
+	void test04_getPartyIdPrivateNotFound() {
 		setupCall()
 			.withServicePath("/2281/PRIVATE/197806010123/partyId")
 			.withHttpMethod(GET)
@@ -71,7 +69,7 @@ class GetPartyIdIT extends AbstractAppTest {
 	}
 
 	@Test
-	void test05_getPartyIdEnterpriseNotFound() throws Exception {
+	void test05_getPartyIdEnterpriseNotFound() {
 		setupCall()
 			.withServicePath("/2281/ENTERPRISE/5566778890/partyId")
 			.withHttpMethod(GET)

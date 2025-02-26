@@ -6,7 +6,7 @@
 			}
 		},
 		"method": "GET",
-		"urlPath": "/api-legalentity/5566778899/guid"
+		"urlPath": "/api-legalentity/2281/5566778899/guid"
 	},
 	"response": {
 		"headers": {

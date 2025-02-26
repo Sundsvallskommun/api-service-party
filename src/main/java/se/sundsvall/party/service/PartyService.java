@@ -25,8 +25,8 @@ public class PartyService {
 		return Optional.ofNullable(type)
 			.map(partyType -> switch (partyType)
 			{
-				case ENTERPRISE -> removeQutationMarks(legalEntityClient.getOrganizationNumber(partyId));
-				case PRIVATE -> removeQutationMarks(citizenClient.getPersonalNumber(partyId));
+				case ENTERPRISE -> removeQutationMarks(legalEntityClient.getOrganizationNumber(municipalityId, partyId));
+				case PRIVATE -> removeQutationMarks(citizenClient.getPersonalNumber(municipalityId, partyId));
 			})
 			.orElseThrow(() -> Problem.valueOf(NOT_FOUND, "No legalId found!"));
 	}
@@ -35,8 +35,8 @@ public class PartyService {
 		return Optional.ofNullable(type)
 			.map(partyType -> switch (partyType)
 			{
-				case ENTERPRISE -> removeQutationMarks(legalEntityClient.getOrganizationId(legalId));
-				case PRIVATE -> removeQutationMarks(citizenClient.getPersonId(legalId));
+				case ENTERPRISE -> removeQutationMarks(legalEntityClient.getOrganizationId(municipalityId, legalId));
+				case PRIVATE -> removeQutationMarks(citizenClient.getPersonId(municipalityId, legalId));
 			})
 			.orElseThrow(() -> Problem.valueOf(NOT_FOUND, "No partyId found!"));
 	}
