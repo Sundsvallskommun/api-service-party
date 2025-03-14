@@ -41,12 +41,6 @@ cd api-service-party
    mvn spring-boot:run
    ```
 
-   - Using Gradle:
-
-   ```bash
-   gradle bootRun
-   ```
-
 ## Dependencies
 
 This microservice depends on the following services:
