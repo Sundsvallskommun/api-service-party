@@ -1,8 +1,11 @@
 package se.sundsvall.party.apptest;
 
+import static java.nio.file.Files.writeString;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -46,9 +49,11 @@ class OpenApiSpecificationIT {
 	private TestRestTemplate restTemplate;
 
 	@Test
-	void compareOpenApiSpecifications() {
+	void compareOpenApiSpecifications() throws IOException {
 		final String existingOpenApiSpecification = ResourceUtils.asString(openApiResource);
 		final String currentOpenApiSpecification = getCurrentOpenApiSpecification();
+
+		writeString(Path.of("target/openapi.yml"), currentOpenApiSpecification);
 
 		assertThatJson(toJson(existingOpenApiSpecification))
 			.withOptions(List.of(Option.IGNORING_ARRAY_ORDER))

@@ -1,14 +1,16 @@
 # Party
 
-_The microservice is an umbrella service for the citizen and legalentity services, with the aim of simplifying for clients who need to translate between legalId and partyId for individuals or organizations._
+_The microservice is an umbrella service for the citizen and legalentity services, with the aim of simplifying for
+clients who need to translate between legalId and partyId for individuals or organizations._
 
-_The service provides two resources. One for translation from individuals' and companies' partyId to their corresponding legalId, and one for translation from individuals' and companies' legalId to their corresponding partyId._
+_The service provides two resources. One for translation from individuals' and companies' partyId to their corresponding
+legalId, and one for translation from individuals' and companies' legalId to their corresponding partyId._
 
 ## Getting Started
 
 ### Prerequisites
 
-- **Java 21 or higher**
+- **Java 25 or higher**
 - **Maven**
 - **Git**
 - **[Dependent Microservices](#dependencies)**
@@ -31,7 +33,8 @@ cd api-service-party
 
 3. **Ensure dependent services are running:**
 
-   If this microservice depends on other services, make sure they are up and accessible. See [Dependencies](#dependencies) for more details.
+   If this microservice depends on other services, make sure they are up and accessible.
+   See [Dependencies](#dependencies) for more details.
 
 4. **Build and run the application:**
 
@@ -72,7 +75,8 @@ curl -X GET http://localhost:8080/2281/PRIVATE/81471222-5798-11e9-ae24-57fa13b36
 
 ## Configuration
 
-Configuration is crucial for the application to run successfully. Ensure all necessary settings are configured in `application.yml`.
+Configuration is crucial for the application to run successfully. Ensure all necessary settings are configured in
+`application.yml`.
 
 ### Key Configuration Parameters
 
@@ -121,7 +125,8 @@ spring:
 
 ## Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](https://github.com/Sundsvallskommun/.github/blob/main/.github/CONTRIBUTING.md) for guidelines.
+Contributions are welcome! Please
+see [CONTRIBUTING.md](https://github.com/Sundsvallskommun/.github/blob/main/.github/CONTRIBUTING.md) for guidelines.
 
 ## License
 

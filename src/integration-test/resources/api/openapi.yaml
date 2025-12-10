@@ -1,60 +1,60 @@
-openapi: 3.0.1
+openapi: 3.1.0
 info:
   title: api-party
-  contact: {}
+  contact: { }
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
   version: "2.0"
 servers:
-- url: http://localhost:8080
-  description: Generated server url
+  - url: http://localhost:52013
+    description: Generated server url
 tags:
-- name: Party
-  description: Party operations
+  - name: Party
+    description: Party operations
 paths:
   /{municipalityId}/{type}/{partyId}/legalId:
     get:
       tags:
-      - Party
+        - Party
       summary: Get partys legal-ID by unique identifier
       operationId: getLegalIdByPartyId
       parameters:
-      - name: municipalityId
-        in: path
-        description: Municipality id
-        required: true
-        schema:
-          type: string
-        example: 2281
-      - name: type
-        in: path
-        description: Party type
-        required: true
-        schema:
-          $ref: "#/components/schemas/PartyType"
-      - name: partyId
-        in: path
-        description: Universally unique identifier for the party
-        required: true
-        schema:
-          type: string
-        example: 81471222-5798-11e9-ae24-57fa13b361e1
+        - name: municipalityId
+          in: path
+          description: Municipality id
+          required: true
+          schema:
+            type: string
+          example: 2281
+        - name: type
+          in: path
+          description: Party type
+          required: true
+          schema:
+            $ref: "#/components/schemas/PartyType"
+        - name: partyId
+          in: path
+          description: Universally unique identifier for the party
+          required: true
+          schema:
+            type: string
+          example: 81471222-5798-11e9-ae24-57fa13b361e1
       responses:
-        "400":
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                oneOf:
-                - $ref: "#/components/schemas/Problem"
-                - $ref: "#/components/schemas/ConstraintViolationProblem"
         "200":
           description: Successful Operation
           content:
             text/plain:
               schema:
                 type: string
+        "400":
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Problem"
+                  - $ref: "#/components/schemas/ConstraintViolationProblem"
         "404":
           description: Not Found
           content:
@@ -70,45 +70,45 @@ paths:
   /{municipalityId}/{type}/{legalId}/partyId:
     get:
       tags:
-      - Party
+        - Party
       summary: Get partys unique identifier by legal-ID
       operationId: getPartyIdByLegalId
       parameters:
-      - name: municipalityId
-        in: path
-        description: Municipality id
-        required: true
-        schema:
-          type: string
-        example: 2281
-      - name: type
-        in: path
-        description: Party type
-        required: true
-        schema:
-          $ref: "#/components/schemas/PartyType"
-      - name: legalId
-        in: path
-        description: Legal-ID
-        required: true
-        schema:
-          type: string
-        example: 5565125584
+        - name: municipalityId
+          in: path
+          description: Municipality id
+          required: true
+          schema:
+            type: string
+          example: 2281
+        - name: type
+          in: path
+          description: Party type
+          required: true
+          schema:
+            $ref: "#/components/schemas/PartyType"
+        - name: legalId
+          in: path
+          description: Legal-ID
+          required: true
+          schema:
+            type: string
+          example: 5565125584
       responses:
-        "400":
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                oneOf:
-                - $ref: "#/components/schemas/Problem"
-                - $ref: "#/components/schemas/ConstraintViolationProblem"
         "200":
           description: Successful Operation
           content:
             text/plain:
               schema:
                 type: string
+        "400":
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Problem"
+                  - $ref: "#/components/schemas/ConstraintViolationProblem"
         "404":
           description: Not Found
           content:
@@ -124,7 +124,7 @@ paths:
   /api-docs:
     get:
       tags:
-      - API
+        - API
       summary: OpenAPI
       operationId: getApiDocs
       responses:
@@ -139,15 +139,15 @@ paths:
       x-wso2-mutual-ssl: Optional
 components:
   schemas:
-    PartyType:
-      type: string
-      description: Party type model
-      enum:
-      - ENTERPRISE
-      - PRIVATE
     Problem:
       type: object
       properties:
+        status:
+          $ref: "#/components/schemas/StatusType"
+        title:
+          type: string
+        detail:
+          type: string
         instance:
           type: string
           format: uri
@@ -156,14 +156,7 @@ components:
           format: uri
         parameters:
           type: object
-          additionalProperties:
-            type: object
-        status:
-          $ref: "#/components/schemas/StatusType"
-        detail:
-          type: string
-        title:
-          type: string
+          additionalProperties: { }
     StatusType:
       type: object
       properties:
@@ -212,15 +205,14 @@ components:
           type: string
         message:
           type: string
+        detail:
+          type: string
         instance:
           type: string
           format: uri
         parameters:
           type: object
-          additionalProperties:
-            type: object
-        detail:
-          type: string
+          additionalProperties: { }
         suppressed:
           type: array
           items:
@@ -257,8 +249,7 @@ components:
     ThrowableProblem:
       type: object
       properties:
-        cause:
-          $ref: "#/components/schemas/ThrowableProblem"
+        cause: { }
         stackTrace:
           type: array
           items:
@@ -283,6 +274,12 @@ components:
                 type: boolean
         message:
           type: string
+        status:
+          $ref: "#/components/schemas/StatusType"
+        title:
+          type: string
+        detail:
+          type: string
         instance:
           type: string
           format: uri
@@ -291,14 +288,7 @@ components:
           format: uri
         parameters:
           type: object
-          additionalProperties:
-            type: object
-        status:
-          $ref: "#/components/schemas/StatusType"
-        detail:
-          type: string
-        title:
-          type: string
+          additionalProperties: { }
         suppressed:
           type: array
           items:
@@ -339,4 +329,10 @@ components:
           type: string
         message:
           type: string
-  securitySchemes: {}
+    PartyType:
+      type: string
+      description: Party type model
+      enum:
+        - ENTERPRISE
+        - PRIVATE
+  securitySchemes: { }
