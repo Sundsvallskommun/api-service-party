@@ -1,0 +1,24 @@
+{
+	"request": {
+		"headers": {
+			"Authorization": {
+				"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"
+			}
+		},
+		"method": "POST",
+		"urlPath": "/api-citizen/2281/guid/batch",
+		"bodyPatterns": [
+			{
+				"equalToJson": "[\"197706010123\", \"199999991234\"]"
+			}
+		]
+	},
+	"response": {
+		"headers": {
+			"Content-Type": "application/json"
+		},
+		"body": "[{\"personNumber\":\"197706010123\",\"personId\":\"fbeac2e0-6a30-411f-b083-4a53578cb6d4\",\"success\":true,\"errorMessage\":null},{\"personNumber\":\"199999991234\",\"personId\":null,\"success\":false,\"errorMessage\":\"Person not found\"}]",
+		"status": 200
+	},
+	"name": "api-citizen-batch"
+}

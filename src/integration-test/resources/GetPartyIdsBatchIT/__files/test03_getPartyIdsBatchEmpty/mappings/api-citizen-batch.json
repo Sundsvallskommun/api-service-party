@@ -1,0 +1,24 @@
+{
+	"request": {
+		"headers": {
+			"Authorization": {
+				"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"
+			}
+		},
+		"method": "POST",
+		"urlPath": "/api-citizen/2281/guid/batch",
+		"bodyPatterns": [
+			{
+				"equalToJson": "[]"
+			}
+		]
+	},
+	"response": {
+		"headers": {
+			"Content-Type": "application/json"
+		},
+		"body": "[]",
+		"status": 200
+	},
+	"name": "api-citizen-batch"
+}

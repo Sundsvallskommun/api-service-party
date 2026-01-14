@@ -3,10 +3,13 @@ package se.sundsvall.party.api;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.TEXT_PLAIN;
 import static se.sundsvall.party.api.model.PartyType.ENTERPRISE;
 import static se.sundsvall.party.api.model.PartyType.PRIVATE;
 
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -90,5 +93,63 @@ class PartyResourceTest {
 
 		// Assert
 		verify(serviceMock).getLegalId(municipalityId, PRIVATE, partyId);
+	}
+
+	@Test
+	void getPartyIdsByPersonNumbers() {
+
+		// Arrange
+		final var municipalityId = "2281";
+		final var personNumber1 = "199001011234";
+		final var personNumber2 = "199002021234";
+		final var personId1 = "81471222-5798-11e9-ae24-57fa13b361e1";
+		final var personId2 = "81471222-5798-11e9-ae24-57fa13b361e2";
+		final var personNumbers = List.of(personNumber1, personNumber2);
+		final var expectedResult = Map.of(personNumber1, personId1, personNumber2, personId2);
+
+		when(serviceMock.getPartyIds(municipalityId, personNumbers)).thenReturn(expectedResult);
+
+		// Act
+		webTestClient.post().uri("/{municipalityId}/PRIVATE/partyIds", municipalityId)
+			.contentType(APPLICATION_JSON)
+			.bodyValue(personNumbers)
+			.exchange()
+			.expectStatus().isOk()
+			.expectHeader().contentType(APPLICATION_JSON)
+			.expectBody()
+			.jsonPath("$." + personNumber1).isEqualTo(personId1)
+			.jsonPath("$." + personNumber2).isEqualTo(personId2);
+
+		// Assert
+		verify(serviceMock).getPartyIds(municipalityId, personNumbers);
+	}
+
+	@Test
+	void getLegalIdsByPartyIds() {
+
+		// Arrange
+		final var municipalityId = "2281";
+		final var personId1 = "81471222-5798-11e9-ae24-57fa13b361e1";
+		final var personId2 = "81471222-5798-11e9-ae24-57fa13b361e2";
+		final var personNumber1 = "199001011234";
+		final var personNumber2 = "199002021234";
+		final var personIds = List.of(personId1, personId2);
+		final var expectedResult = Map.of(personId1, personNumber1, personId2, personNumber2);
+
+		when(serviceMock.getLegalIds(municipalityId, personIds)).thenReturn(expectedResult);
+
+		// Act
+		webTestClient.post().uri("/{municipalityId}/PRIVATE/legalIds", municipalityId)
+			.contentType(APPLICATION_JSON)
+			.bodyValue(personIds)
+			.exchange()
+			.expectStatus().isOk()
+			.expectHeader().contentType(APPLICATION_JSON)
+			.expectBody()
+			.jsonPath("$." + personId1).isEqualTo(personNumber1)
+			.jsonPath("$." + personId2).isEqualTo(personNumber2);
+
+		// Assert
+		verify(serviceMock).getLegalIds(municipalityId, personIds);
 	}
 }
