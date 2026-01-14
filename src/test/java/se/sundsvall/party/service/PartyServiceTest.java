@@ -9,6 +9,9 @@ import static org.mockito.Mockito.when;
 import static se.sundsvall.party.api.model.PartyType.ENTERPRISE;
 import static se.sundsvall.party.api.model.PartyType.PRIVATE;
 
+import generated.client.citizen.PersonGuidBatch;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -64,7 +67,7 @@ class PartyServiceTest {
 	@Test
 	void testGetPartyIdForEnterpriseTypeForLegalIdWithoutCentury() {
 
-		final var legalId = "2201011234"; // LegalId without century
+		final var legalId = "2201011234"; // LegalId without a century
 
 		when(legalEntityClientMock.getOrganizationId(MUNICIPALITY_ID, legalId)).thenReturn(wrap(PARTY_ID, "\""));
 
@@ -101,5 +104,165 @@ class PartyServiceTest {
 
 		assertThat(exception).hasMessage("Not Found: No partyId found!");
 		verifyNoInteractions(citizenClientMock, citizenClientMock, legalEntityClientMock);
+	}
+
+	@Test
+	void testGetPartyIds() {
+		// Arrange
+		final var personNumber1 = "199001011234";
+		final var personNumber2 = "199002021234";
+		final var personId1 = UUID.fromString("81471222-5798-11e9-ae24-57fa13b361e1");
+		final var personId2 = UUID.fromString("81471222-5798-11e9-ae24-57fa13b361e2");
+		final var personNumbers = List.of(personNumber1, personNumber2);
+
+		when(citizenClientMock.getPersonIdsBatch(MUNICIPALITY_ID, personNumbers)).thenReturn(List.of(
+			new PersonGuidBatch().personNumber(personNumber1).personId(personId1).success(true),
+			new PersonGuidBatch().personNumber(personNumber2).personId(personId2).success(true)));
+
+		// Act
+		final var result = service.getPartyIds(MUNICIPALITY_ID, personNumbers);
+
+		// Assert
+		assertThat(result).hasSize(2)
+			.containsEntry(personNumber1, personId1.toString())
+			.containsEntry(personNumber2, personId2.toString());
+		verify(citizenClientMock).getPersonIdsBatch(MUNICIPALITY_ID, personNumbers);
+	}
+
+	@Test
+	void testGetPartyIdsFiltersUnsuccessfulResults() {
+		// Arrange
+		final var personNumber1 = "199001011234";
+		final var personNumber2 = "199002021234";
+		final var personId1 = UUID.fromString("81471222-5798-11e9-ae24-57fa13b361e1");
+		final var personNumbers = List.of(personNumber1, personNumber2);
+
+		when(citizenClientMock.getPersonIdsBatch(MUNICIPALITY_ID, personNumbers)).thenReturn(List.of(
+			new PersonGuidBatch().personNumber(personNumber1).personId(personId1).success(true),
+			new PersonGuidBatch().personNumber(personNumber2).success(false).errorMessage("Not found")));
+
+		// Act
+		final var result = service.getPartyIds(MUNICIPALITY_ID, personNumbers);
+
+		// Assert
+		assertThat(result).hasSize(1)
+			.containsEntry(personNumber1, personId1.toString())
+			.doesNotContainKey(personNumber2);
+		verify(citizenClientMock).getPersonIdsBatch(MUNICIPALITY_ID, personNumbers);
+	}
+
+	@Test
+	void testGetPartyIdsWithEmptyList() {
+		// Arrange
+		final List<String> personNumbers = List.of();
+
+		when(citizenClientMock.getPersonIdsBatch(MUNICIPALITY_ID, personNumbers)).thenReturn(List.of());
+
+		// Act
+		final var result = service.getPartyIds(MUNICIPALITY_ID, personNumbers);
+
+		// Assert
+		assertThat(result).isEmpty();
+		verify(citizenClientMock).getPersonIdsBatch(MUNICIPALITY_ID, personNumbers);
+	}
+
+	@Test
+	void testGetPartyIdsWithDuplicates() {
+		// Arrange
+		final var personNumber1 = "199001011234";
+		final var personId1 = UUID.fromString("81471222-5798-11e9-ae24-57fa13b361e1");
+		final var personNumbers = List.of(personNumber1, personNumber1, personNumber1); // Same person 3 times
+		final var distinctPersonNumbers = List.of(personNumber1); // Expected distinct list
+
+		when(citizenClientMock.getPersonIdsBatch(MUNICIPALITY_ID, distinctPersonNumbers)).thenReturn(List.of(
+			new PersonGuidBatch().personNumber(personNumber1).personId(personId1).success(true)));
+
+		// Act
+		final var result = service.getPartyIds(MUNICIPALITY_ID, personNumbers);
+
+		// Assert
+		assertThat(result).hasSize(1)
+			.containsEntry(personNumber1, personId1.toString());
+		verify(citizenClientMock).getPersonIdsBatch(MUNICIPALITY_ID, distinctPersonNumbers); // Verify only distinct list was sent
+	}
+
+	@Test
+	void testGetLegalIds() {
+		// Arrange
+		final var personId1 = UUID.fromString("81471222-5798-11e9-ae24-57fa13b361e1");
+		final var personId2 = UUID.fromString("81471222-5798-11e9-ae24-57fa13b361e2");
+		final var personNumber1 = "199001011234";
+		final var personNumber2 = "199002021234";
+		final var personIds = List.of(personId1.toString(), personId2.toString());
+
+		when(citizenClientMock.getPersonalNumbersBatch(MUNICIPALITY_ID, personIds)).thenReturn(List.of(
+			new PersonGuidBatch().personNumber(personNumber1).personId(personId1).success(true),
+			new PersonGuidBatch().personNumber(personNumber2).personId(personId2).success(true)));
+
+		// Act
+		final var result = service.getLegalIds(MUNICIPALITY_ID, personIds);
+
+		// Assert
+		assertThat(result).hasSize(2)
+			.containsEntry(personId1.toString(), personNumber1)
+			.containsEntry(personId2.toString(), personNumber2);
+		verify(citizenClientMock).getPersonalNumbersBatch(MUNICIPALITY_ID, personIds);
+	}
+
+	@Test
+	void testGetLegalIdsFiltersUnsuccessfulResults() {
+		// Arrange
+		final var personId1 = UUID.fromString("81471222-5798-11e9-ae24-57fa13b361e1");
+		final var personId2 = UUID.fromString("81471222-5798-11e9-ae24-57fa13b361e2");
+		final var personNumber1 = "199001011234";
+		final var personIds = List.of(personId1.toString(), personId2.toString());
+
+		when(citizenClientMock.getPersonalNumbersBatch(MUNICIPALITY_ID, personIds)).thenReturn(List.of(
+			new PersonGuidBatch().personNumber(personNumber1).personId(personId1).success(true),
+			new PersonGuidBatch().personId(personId2).success(false).errorMessage("Not found")));
+
+		// Act
+		final var result = service.getLegalIds(MUNICIPALITY_ID, personIds);
+
+		// Assert
+		assertThat(result).hasSize(1)
+			.containsEntry(personId1.toString(), personNumber1)
+			.doesNotContainKey(personId2.toString());
+		verify(citizenClientMock).getPersonalNumbersBatch(MUNICIPALITY_ID, personIds);
+	}
+
+	@Test
+	void testGetLegalIdsWithEmptyList() {
+		// Arrange
+		final List<String> personIds = List.of();
+
+		when(citizenClientMock.getPersonalNumbersBatch(MUNICIPALITY_ID, personIds)).thenReturn(List.of());
+
+		// Act
+		final var result = service.getLegalIds(MUNICIPALITY_ID, personIds);
+
+		// Assert
+		assertThat(result).isEmpty();
+		verify(citizenClientMock).getPersonalNumbersBatch(MUNICIPALITY_ID, personIds);
+	}
+
+	@Test
+	void testGetLegalIdsWithDuplicates() {
+		// Arrange
+		final var personId1 = UUID.fromString("81471222-5798-11e9-ae24-57fa13b361e1");
+		final var personNumber1 = "199001011234";
+		final var personIds = List.of(personId1.toString(), personId1.toString(), personId1.toString()); // Same UUID 3 times
+		final var distinctPersonIds = List.of(personId1.toString()); // Expected distinct list
+
+		when(citizenClientMock.getPersonalNumbersBatch(MUNICIPALITY_ID, distinctPersonIds)).thenReturn(List.of(
+			new PersonGuidBatch().personNumber(personNumber1).personId(personId1).success(true)));
+
+		// Act
+		final var result = service.getLegalIds(MUNICIPALITY_ID, personIds);
+
+		// Assert
+		assertThat(result).hasSize(1)
+			.containsEntry(personId1.toString(), personNumber1);
+		verify(citizenClientMock).getPersonalNumbersBatch(MUNICIPALITY_ID, distinctPersonIds); // Verify only distinct list was sent
 	}
 }
