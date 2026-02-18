@@ -1,8 +1,5 @@
 package se.sundsvall.party.service;
 
-import static org.apache.commons.lang3.StringUtils.strip;
-import static org.zalando.problem.Status.NOT_FOUND;
-
 import generated.client.citizen.PersonGuidBatch;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +10,9 @@ import org.zalando.problem.Problem;
 import se.sundsvall.party.api.model.PartyType;
 import se.sundsvall.party.integration.citizen.CitizenClient;
 import se.sundsvall.party.integration.legalentity.LegalEntityClient;
+
+import static org.apache.commons.lang3.StringUtils.strip;
+import static org.zalando.problem.Status.NOT_FOUND;
 
 @Service
 public class PartyService {
