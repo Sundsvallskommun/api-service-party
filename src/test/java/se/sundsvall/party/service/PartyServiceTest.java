@@ -1,14 +1,5 @@
 package se.sundsvall.party.service;
 
-import static org.apache.commons.lang3.StringUtils.wrap;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
-import static se.sundsvall.party.api.model.PartyType.ENTERPRISE;
-import static se.sundsvall.party.api.model.PartyType.PRIVATE;
-
 import generated.client.citizen.PersonGuidBatch;
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +11,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.zalando.problem.ThrowableProblem;
 import se.sundsvall.party.integration.citizen.CitizenClient;
 import se.sundsvall.party.integration.legalentity.LegalEntityClient;
+
+import static org.apache.commons.lang3.StringUtils.wrap;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
+import static se.sundsvall.party.api.model.PartyType.ENTERPRISE;
+import static se.sundsvall.party.api.model.PartyType.PRIVATE;
 
 @ExtendWith(MockitoExtension.class)
 class PartyServiceTest {

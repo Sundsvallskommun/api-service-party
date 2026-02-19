@@ -1,12 +1,5 @@
 package se.sundsvall.party.api;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON_VALUE;
-import static org.springframework.http.MediaType.TEXT_PLAIN;
-import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
-import static org.springframework.http.ResponseEntity.ok;
-import static org.zalando.problem.Status.BAD_REQUEST;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,6 +24,13 @@ import se.sundsvall.dept44.common.validators.annotation.impl.ValidOrganizationNu
 import se.sundsvall.dept44.common.validators.annotation.impl.ValidPersonalNumberConstraintValidator;
 import se.sundsvall.party.api.model.PartyType;
 import se.sundsvall.party.service.PartyService;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON_VALUE;
+import static org.springframework.http.MediaType.TEXT_PLAIN;
+import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
+import static org.springframework.http.ResponseEntity.ok;
+import static org.zalando.problem.Status.BAD_REQUEST;
 
 @RestController
 @Validated
