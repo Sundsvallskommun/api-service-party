@@ -3,23 +3,26 @@ package se.sundsvall.party.integration.legalentity.configuration;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.openfeign.FeignBuilderCustomizer;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import se.sundsvall.dept44.configuration.feign.FeignMultiCustomizer;
 import se.sundsvall.dept44.configuration.feign.decoder.ProblemErrorDecoder;
 import se.sundsvall.party.Application;
+import se.sundsvall.party.integration.citizen.CitizenClient;
+import se.sundsvall.party.integration.legalentity.LegalEntityClient;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -29,17 +32,11 @@ import static se.sundsvall.party.integration.legalentity.configuration.LegalEnti
 @ActiveProfiles("junit")
 class LegalEntityConfigurationTest {
 
-	@Mock
-	private ClientRegistrationRepository clientRegistrationRepositoryMock;
+	@MockitoBean
+	private CitizenClient citizenClient;
 
-	@Mock
-	private ClientRegistration clientRegistrationMock;
-
-	@Spy
-	private FeignMultiCustomizer feignMultiCustomizerSpy;
-
-	@Mock
-	private FeignBuilderCustomizer feignBuilderCustomizerMock;
+	@MockitoBean
+	private LegalEntityClient legalEntityClient;
 
 	@Autowired
 	private LegalEntityProperties properties;
@@ -47,6 +44,10 @@ class LegalEntityConfigurationTest {
 	@Test
 	void testFeignBuilderCustomizer() {
 		final var configuration = new LegalEntityConfiguration();
+		final var clientRegistrationRepositoryMock = mock(ClientRegistrationRepository.class);
+		final var clientRegistrationMock = mock(ClientRegistration.class);
+		final var feignMultiCustomizerSpy = spy(FeignMultiCustomizer.class);
+		final var feignBuilderCustomizerMock = mock(FeignBuilderCustomizer.class);
 
 		when(clientRegistrationRepositoryMock.findByRegistrationId(any())).thenReturn(clientRegistrationMock);
 		when(feignMultiCustomizerSpy.composeCustomizersToOne()).thenReturn(feignBuilderCustomizerMock);

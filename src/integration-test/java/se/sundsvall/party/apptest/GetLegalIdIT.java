@@ -4,12 +4,12 @@ import static java.util.Map.entry;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 import java.util.List;
 import java.util.Map.Entry;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
 import se.sundsvall.dept44.test.AbstractAppTest;
 import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
 import se.sundsvall.party.Application;
@@ -49,7 +49,7 @@ class GetLegalIdIT extends AbstractAppTest {
 		setupCall()
 			.withServicePath("/2281/PRIVATE/fbeac2e0-6a30-411f-b083-4a53578cb6d4/legalId")
 			.withHttpMethod(GET)
-			.withExpectedResponseStatus(HttpStatus.NOT_FOUND)
+			.withExpectedResponseStatus(NOT_FOUND)
 			.withExpectedResponse("response.json")
 			.sendRequestAndVerifyResponse();
 	}
@@ -59,7 +59,7 @@ class GetLegalIdIT extends AbstractAppTest {
 		setupCall()
 			.withServicePath("/2281/ENTERPRISE/51633ca1-a533-4e71-af82-18a1ea646573/legalId")
 			.withHttpMethod(GET)
-			.withExpectedResponseStatus(HttpStatus.NOT_FOUND)
+			.withExpectedResponseStatus(NOT_FOUND)
 			.withExpectedResponse("response.json")
 			.sendRequestAndVerifyResponse();
 	}
