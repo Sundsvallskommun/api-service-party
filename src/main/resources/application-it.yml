@@ -4,6 +4,10 @@ integration:
   legalentity:
     url: http://localhost:${wiremock.server.port:}/api-legalentity
 spring:
+  autoconfigure:
+    exclude: #Because dept44-starter-test pulls spring-boot-starter-data-jpa
+      - org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration
+      - org.springframework.boot.hibernate.autoconfigure.HibernateJpaAutoConfiguration
   security:
     oauth2:
       client:
