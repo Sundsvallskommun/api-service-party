@@ -1,5 +1,6 @@
 package se.sundsvall.party.api;
 
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,9 +16,12 @@ import se.sundsvall.party.service.PartyService;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON;
 import static se.sundsvall.party.api.model.PartyType.ENTERPRISE;
 import static se.sundsvall.party.api.model.PartyType.PRIVATE;
@@ -100,6 +104,9 @@ class PartyResourceFailuresTest {
 		final var type = ENTERPRISE.name();
 		final var legalId = "1234";
 
+		when(serviceMock.getPartyId(municipalityId, ENTERPRISE, legalId))
+			.thenThrow(new ConstraintViolationProblem(BAD_REQUEST, List.of(new Violation("getPartyIdByLegalId.legalId", ENTERPRISE_VALIDATION_MESSAGE))));
+
 		// Act
 		final var response = webTestClient.get().uri("/{municipalityId}/{type}/{legalId}/partyId", municipalityId, type, legalId)
 			.exchange()
@@ -116,7 +123,7 @@ class PartyResourceFailuresTest {
 			.extracting(Violation::field, Violation::message)
 			.containsExactly(tuple("getPartyIdByLegalId.legalId", ENTERPRISE_VALIDATION_MESSAGE));
 
-		verifyNoInteractions(serviceMock);
+		verify(serviceMock).getPartyId(municipalityId, ENTERPRISE, legalId);
 	}
 
 	@Test
@@ -126,6 +133,9 @@ class PartyResourceFailuresTest {
 		final var municipalityId = "2281";
 		final var type = PRIVATE.name();
 		final var legalId = "1234";
+
+		when(serviceMock.getPartyId(municipalityId, PRIVATE, legalId))
+			.thenThrow(new ConstraintViolationProblem(BAD_REQUEST, List.of(new Violation("getPartyIdByLegalId.legalId", PRIVATE_VALIDATION_MESSAGE))));
 
 		// Act
 		final var response = webTestClient.get().uri("/{municipalityId}/{type}/{legalId}/partyId", municipalityId, type, legalId)
@@ -143,7 +153,7 @@ class PartyResourceFailuresTest {
 			.extracting(Violation::field, Violation::message)
 			.containsExactly(tuple("getPartyIdByLegalId.legalId", PRIVATE_VALIDATION_MESSAGE));
 
-		verifyNoInteractions(serviceMock);
+		verify(serviceMock).getPartyId(municipalityId, PRIVATE, legalId);
 	}
 
 	@Test
@@ -196,6 +206,86 @@ class PartyResourceFailuresTest {
 		assertThat(response.getViolations())
 			.extracting(Violation::field, Violation::message)
 			.containsExactly(tuple("getLegalIdByPartyId.municipalityId", MUNICIPALITY_ID_VALIDATION_MESSAGE));
+
+		verifyNoInteractions(serviceMock);
+	}
+
+	@Test
+	void getLegalIdsByPartyIdsWithoutTypeBadMunicipalityId() {
+
+		// Arrange
+		final var municipalityId = "000";
+		final var partyIds = List.of(randomUUID().toString());
+
+		// Act
+		final var response = webTestClient.post().uri("/{municipalityId}/legalIds", municipalityId)
+			.contentType(APPLICATION_JSON)
+			.bodyValue(partyIds)
+			.exchange()
+			.expectStatus().isBadRequest()
+			.expectHeader().contentType(APPLICATION_PROBLEM_JSON)
+			.expectBody(ConstraintViolationProblem.class)
+			.returnResult()
+			.getResponseBody();
+
+		// Assert
+		assertThat(response.getTitle()).isEqualTo("Constraint Violation");
+		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
+		assertThat(response.getViolations())
+			.extracting(Violation::field, Violation::message)
+			.containsExactly(tuple("getLegalIdsByPartyIdsWithoutType.municipalityId", MUNICIPALITY_ID_VALIDATION_MESSAGE));
+
+		verifyNoInteractions(serviceMock);
+	}
+
+	@Test
+	void getLegalIdByPartyIdWithoutTypeBadMunicipalityId() {
+
+		// Arrange
+		final var municipalityId = "000";
+		final var partyId = randomUUID().toString();
+
+		// Act
+		final var response = webTestClient.get().uri("/{municipalityId}/partyId/{partyId}/legalId", municipalityId, partyId)
+			.exchange()
+			.expectStatus().isBadRequest()
+			.expectHeader().contentType(APPLICATION_PROBLEM_JSON)
+			.expectBody(ConstraintViolationProblem.class)
+			.returnResult()
+			.getResponseBody();
+
+		// Assert
+		assertThat(response.getTitle()).isEqualTo("Constraint Violation");
+		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
+		assertThat(response.getViolations())
+			.extracting(Violation::field, Violation::message)
+			.containsExactly(tuple("getLegalIdByPartyIdWithoutType.municipalityId", MUNICIPALITY_ID_VALIDATION_MESSAGE));
+
+		verifyNoInteractions(serviceMock);
+	}
+
+	@Test
+	void getLegalIdByPartyIdWithoutTypeBadPartyId() {
+
+		// Arrange
+		final var municipalityId = "2281";
+		final var partyId = "not-a-uuid";
+
+		// Act
+		final var response = webTestClient.get().uri("/{municipalityId}/partyId/{partyId}/legalId", municipalityId, partyId)
+			.exchange()
+			.expectStatus().isBadRequest()
+			.expectHeader().contentType(APPLICATION_PROBLEM_JSON)
+			.expectBody(ConstraintViolationProblem.class)
+			.returnResult()
+			.getResponseBody();
+
+		// Assert
+		assertThat(response.getTitle()).isEqualTo("Constraint Violation");
+		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
+		assertThat(response.getViolations())
+			.extracting(Violation::field, Violation::message)
+			.containsExactly(tuple("getLegalIdByPartyIdWithoutType.partyId", UUID_VALIDATION_MESSAGE));
 
 		verifyNoInteractions(serviceMock);
 	}

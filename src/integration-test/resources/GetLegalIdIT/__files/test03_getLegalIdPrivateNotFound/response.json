@@ -1,5 +1,5 @@
 {
-	"detail": "No legalId found!",
+	"detail": "No legalId found for partyId 'fbeac2e0-6a30-411f-b083-4a53578cb6d4' of type PRIVATE",
 	"title": "Not Found",
 	"status": 404
 }

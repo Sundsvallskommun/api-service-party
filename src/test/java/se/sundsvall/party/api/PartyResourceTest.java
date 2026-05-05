@@ -2,6 +2,7 @@ package se.sundsvall.party.api;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import se.sundsvall.party.Application;
+import se.sundsvall.party.api.model.PartyLegalIdResponse;
 import se.sundsvall.party.service.PartyService;
 
 import static org.mockito.Mockito.verify;
@@ -135,7 +137,7 @@ class PartyResourceTest {
 		final var personId2 = "81471222-5798-11e9-ae24-57fa13b361e2";
 		final var personNumber1 = "199001011234";
 		final var personNumber2 = "199002021234";
-		final var personIds = List.of(personId1, personId2);
+		final var personIds = Set.of(personId1, personId2);
 		final var expectedResult = Map.of(personId1, personNumber1, personId2, personNumber2);
 
 		when(serviceMock.getLegalIds(municipalityId, personIds)).thenReturn(expectedResult);
@@ -153,5 +155,58 @@ class PartyResourceTest {
 
 		// Assert
 		verify(serviceMock).getLegalIds(municipalityId, personIds);
+	}
+
+	@Test
+	void getLegalIdsByPartyIdsWithoutType() {
+
+		// Arrange
+		final var municipalityId = "2281";
+		final var partyId1 = "81471222-5798-11e9-ae24-57fa13b361e1";
+		final var partyId2 = "81471222-5798-11e9-ae24-57fa13b361e2";
+		final var partyId3 = "81471222-5798-11e9-ae24-57fa13b361e3";
+		final var partyIds = Set.of(partyId1, partyId2, partyId3);
+		final var expectedResult = new PartyLegalIdResponse(
+			Map.of(partyId1, "199001011234"),
+			Map.of(partyId2, "5565125584"),
+			List.of(partyId3));
+
+		when(serviceMock.getLegalIdsByPartyIds(municipalityId, partyIds)).thenReturn(expectedResult);
+
+		// Act
+		webTestClient.post().uri("/{municipalityId}/legalIds", municipalityId)
+			.contentType(APPLICATION_JSON)
+			.bodyValue(partyIds)
+			.exchange()
+			.expectStatus().isOk()
+			.expectHeader().contentType(APPLICATION_JSON)
+			.expectBody()
+			.jsonPath("$.personalNumbers." + partyId1).isEqualTo("199001011234")
+			.jsonPath("$.organizationNumbers." + partyId2).isEqualTo("5565125584")
+			.jsonPath("$.notFound[0]").isEqualTo(partyId3);
+
+		// Assert
+		verify(serviceMock).getLegalIdsByPartyIds(municipalityId, partyIds);
+	}
+
+	@Test
+	void getLegalIdByPartyIdWithoutType() {
+
+		// Arrange
+		final var municipalityId = "2281";
+		final var partyId = "81471222-5798-11e9-ae24-57fa13b361e1";
+		final var legalId = "197706010123";
+
+		when(serviceMock.getLegalIdByPartyId(municipalityId, partyId)).thenReturn(legalId);
+
+		// Act
+		webTestClient.get().uri("/{municipalityId}/partyId/{partyId}/legalId", municipalityId, partyId)
+			.exchange()
+			.expectStatus().isOk()
+			.expectHeader().contentType(TEXT_PLAIN)
+			.expectBody(String.class).isEqualTo(legalId);
+
+		// Assert
+		verify(serviceMock).getLegalIdByPartyId(municipalityId, partyId);
 	}
 }

@@ -11,19 +11,16 @@ import se.sundsvall.dept44.test.AbstractAppTest;
 import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
 import se.sundsvall.party.Application;
 
-/**
- * Get partyIds by personNumbers in batch tests.
- */
-@WireMockAppTestSuite(files = "classpath:/GetPartyIdsBatchIT/", classes = Application.class)
-class GetPartyIdsBatchIT extends AbstractAppTest {
+@WireMockAppTestSuite(files = "classpath:/GetLegalIdsByPartyIdsIT/", classes = Application.class)
+class GetLegalIdsByPartyIdsIT extends AbstractAppTest {
 
 	private static final String REQUEST = "request.json";
 	private static final String RESPONSE = "response.json";
 
 	@Test
-	void test01_getPartyIdsBatch() {
+	void test01_mixedResults() {
 		setupCall()
-			.withServicePath("/2281/PRIVATE/partyIds")
+			.withServicePath("/2281/legalIds")
 			.withHttpMethod(POST)
 			.withRequest(REQUEST)
 			.withExpectedResponseStatus(OK)
@@ -33,21 +30,9 @@ class GetPartyIdsBatchIT extends AbstractAppTest {
 	}
 
 	@Test
-	void test02_getPartyIdsBatchWithPartialSuccess() {
+	void test02_allFoundInCitizen() {
 		setupCall()
-			.withServicePath("/2281/PRIVATE/partyIds")
-			.withHttpMethod(POST)
-			.withRequest(REQUEST)
-			.withExpectedResponseStatus(OK)
-			.withExpectedResponseHeader(CONTENT_TYPE, List.of(APPLICATION_JSON_VALUE))
-			.withExpectedResponse(RESPONSE)
-			.sendRequestAndVerifyResponse();
-	}
-
-	@Test
-	void test03_getPartyIdsBatchEmpty() {
-		setupCall()
-			.withServicePath("/2281/PRIVATE/partyIds")
+			.withServicePath("/2281/legalIds")
 			.withHttpMethod(POST)
 			.withRequest(REQUEST)
 			.withExpectedResponseStatus(OK)

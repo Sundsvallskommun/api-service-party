@@ -1,14 +1,12 @@
 package se.sundsvall.party.apptest;
 
-import static java.util.Map.entry;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 import java.util.List;
-import java.util.Map.Entry;
 import org.junit.jupiter.api.Test;
 import se.sundsvall.dept44.test.AbstractAppTest;
 import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
@@ -20,7 +18,7 @@ import se.sundsvall.party.Application;
 @WireMockAppTestSuite(files = "classpath:/GetLegalIdIT/", classes = Application.class)
 class GetLegalIdIT extends AbstractAppTest {
 
-	private static final Entry<String, List<String>> EXPECTED_SUCCESS_CONTENT_TYPE_HEADER = entry(CONTENT_TYPE, List.of(TEXT_PLAIN_VALUE));
+	private static final String RESPONSE = "response.json";
 
 	@Test
 	void test01_getLegalIdPrivate() {
@@ -28,7 +26,7 @@ class GetLegalIdIT extends AbstractAppTest {
 			.withServicePath("/2281/PRIVATE/fbeac2e0-6a30-411f-b083-4a53578cb6d4/legalId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(OK)
-			.withExpectedResponseHeader(EXPECTED_SUCCESS_CONTENT_TYPE_HEADER.getKey(), EXPECTED_SUCCESS_CONTENT_TYPE_HEADER.getValue())
+			.withExpectedResponseHeader(CONTENT_TYPE, List.of(TEXT_PLAIN_VALUE))
 			.withExpectedResponse("197706010123")
 			.sendRequestAndVerifyResponse();
 	}
@@ -39,7 +37,7 @@ class GetLegalIdIT extends AbstractAppTest {
 			.withServicePath("/2281/ENTERPRISE/51633ca1-a533-4e71-af82-18a1ea646573/legalId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(OK)
-			.withExpectedResponseHeader(EXPECTED_SUCCESS_CONTENT_TYPE_HEADER.getKey(), EXPECTED_SUCCESS_CONTENT_TYPE_HEADER.getValue())
+			.withExpectedResponseHeader(CONTENT_TYPE, List.of(TEXT_PLAIN_VALUE))
 			.withExpectedResponse("5566778899")
 			.sendRequestAndVerifyResponse();
 	}
@@ -50,7 +48,7 @@ class GetLegalIdIT extends AbstractAppTest {
 			.withServicePath("/2281/PRIVATE/fbeac2e0-6a30-411f-b083-4a53578cb6d4/legalId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(NOT_FOUND)
-			.withExpectedResponse("response.json")
+			.withExpectedResponse(RESPONSE)
 			.sendRequestAndVerifyResponse();
 	}
 
@@ -60,7 +58,7 @@ class GetLegalIdIT extends AbstractAppTest {
 			.withServicePath("/2281/ENTERPRISE/51633ca1-a533-4e71-af82-18a1ea646573/legalId")
 			.withHttpMethod(GET)
 			.withExpectedResponseStatus(NOT_FOUND)
-			.withExpectedResponse("response.json")
+			.withExpectedResponse(RESPONSE)
 			.sendRequestAndVerifyResponse();
 	}
 }
