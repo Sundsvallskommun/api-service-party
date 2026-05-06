@@ -289,4 +289,60 @@ class PartyResourceFailuresTest {
 
 		verifyNoInteractions(serviceMock);
 	}
+
+	@Test
+	void getLegalIdsByPartyIdsWithInvalidUuid() {
+
+		// Arrange
+		final var municipalityId = "2281";
+		final var partyIds = List.of("not-a-uuid", randomUUID().toString());
+
+		// Act
+		final var response = webTestClient.post().uri("/{municipalityId}/PRIVATE/legalIds", municipalityId)
+			.contentType(APPLICATION_JSON)
+			.bodyValue(partyIds)
+			.exchange()
+			.expectStatus().isBadRequest()
+			.expectHeader().contentType(APPLICATION_PROBLEM_JSON)
+			.expectBody(ConstraintViolationProblem.class)
+			.returnResult()
+			.getResponseBody();
+
+		// Assert
+		assertThat(response.getTitle()).isEqualTo("Constraint Violation");
+		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
+		assertThat(response.getViolations())
+			.extracting(Violation::field, Violation::message)
+			.containsExactly(tuple("getLegalIdsByPartyIds.personIds[].<iterable element>", UUID_VALIDATION_MESSAGE));
+
+		verifyNoInteractions(serviceMock);
+	}
+
+	@Test
+	void getLegalIdsByPartyIdsWithoutTypeWithInvalidUuid() {
+
+		// Arrange
+		final var municipalityId = "2281";
+		final var partyIds = List.of("also-not-uuid", randomUUID().toString());
+
+		// Act
+		final var response = webTestClient.post().uri("/{municipalityId}/legalIds", municipalityId)
+			.contentType(APPLICATION_JSON)
+			.bodyValue(partyIds)
+			.exchange()
+			.expectStatus().isBadRequest()
+			.expectHeader().contentType(APPLICATION_PROBLEM_JSON)
+			.expectBody(ConstraintViolationProblem.class)
+			.returnResult()
+			.getResponseBody();
+
+		// Assert
+		assertThat(response.getTitle()).isEqualTo("Constraint Violation");
+		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
+		assertThat(response.getViolations())
+			.extracting(Violation::field, Violation::message)
+			.containsExactly(tuple("getLegalIdsByPartyIdsWithoutType.partyIds[].<iterable element>", UUID_VALIDATION_MESSAGE));
+
+		verifyNoInteractions(serviceMock);
+	}
 }

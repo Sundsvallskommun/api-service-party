@@ -1,6 +1,7 @@
 package se.sundsvall.party.integration.legalentity;
 
 import java.util.Optional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import se.sundsvall.dept44.exception.ClientProblem;
 
@@ -19,7 +20,10 @@ public class LegalEntityIntegration {
 		try {
 			return Optional.ofNullable(removeQuotationMarks(client.getOrganizationId(municipalityId, organizationNumber)));
 		} catch (final ClientProblem e) {
-			return Optional.empty();
+			if (e.getStatus() == HttpStatus.NOT_FOUND) {
+				return Optional.empty();
+			}
+			throw e;
 		}
 	}
 
@@ -27,7 +31,10 @@ public class LegalEntityIntegration {
 		try {
 			return Optional.ofNullable(removeQuotationMarks(client.getOrganizationNumber(municipalityId, legalEntityId)));
 		} catch (final ClientProblem e) {
-			return Optional.empty();
+			if (e.getStatus() == HttpStatus.NOT_FOUND) {
+				return Optional.empty();
+			}
+			throw e;
 		}
 	}
 

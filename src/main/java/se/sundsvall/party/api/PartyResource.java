@@ -94,7 +94,7 @@ class PartyResource {
 	@Operation(summary = "Get personal identity numbers by party identifiers in batch")
 	ResponseEntity<Map<String, String>> getLegalIdsByPartyIds(
 		@Parameter(name = "municipalityId", description = "Municipality id", example = "2281") @ValidMunicipalityId @PathVariable final String municipalityId,
-		@RequestBody final Set<String> personIds) {
+		@RequestBody final Set<@ValidUuid String> personIds) {
 
 		return ok(service.getLegalIds(municipalityId, personIds));
 	}
@@ -103,7 +103,7 @@ class PartyResource {
 	@Operation(summary = "Get legal IDs by party identifiers in batch, resolving both private and enterprise parties")
 	ResponseEntity<PartyLegalIdResponse> getLegalIdsByPartyIdsWithoutType(
 		@Parameter(name = "municipalityId", description = "Municipality id", example = "2281") @ValidMunicipalityId @PathVariable final String municipalityId,
-		@RequestBody final Set<String> partyIds) {
+		@RequestBody final Set<@ValidUuid String> partyIds) {
 
 		return ok(service.getLegalIdsByPartyIds(municipalityId, partyIds));
 	}
