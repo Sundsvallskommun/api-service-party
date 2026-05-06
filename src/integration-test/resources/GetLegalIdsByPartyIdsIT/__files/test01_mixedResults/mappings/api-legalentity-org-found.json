@@ -1,0 +1,19 @@
+{
+	"request": {
+		"headers": {
+			"Authorization": {
+				"equalTo": "Bearer AAAAAAAAAAAAAAAA0000000000000000"
+			}
+		},
+		"method": "GET",
+		"urlPath": "/api-legalentity/2281/51633ca1-a533-4e71-af82-18a1ea646573/organizationnumber"
+	},
+	"response": {
+		"headers": {
+			"Content-Type": "text/plain"
+		},
+		"body": "5566778899",
+		"status": 200
+	},
+	"name": "api-legalentity-org-found"
+}

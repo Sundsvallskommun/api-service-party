@@ -23,7 +23,7 @@ public interface LegalEntityClient {
 	 * @throws se.sundsvall.dept44.problem.ThrowableProblem when called service responds with error code
 	 */
 	@GetMapping(path = "/{municipalityId}/{organizationNumber}/guid", produces = TEXT_PLAIN_VALUE)
-	String getOrganizationId(@PathVariable("municipalityId") String municipalityId, @PathVariable(name = "organizationNumber") String organizationNumber);
+	String getOrganizationId(@PathVariable String municipalityId, @PathVariable String organizationNumber);
 
 	/**
 	 * Method for retrieving organizationNumber associated to sent in organizationId.
@@ -34,5 +34,5 @@ public interface LegalEntityClient {
 	 * @throws se.sundsvall.dept44.problem.ThrowableProblem when called service responds with error code
 	 */
 	@GetMapping(path = "/{municipalityId}/{legalEntityId}/organizationnumber", produces = TEXT_PLAIN_VALUE)
-	String getOrganizationNumber(@PathVariable("municipalityId") String municipalityId, @PathVariable(name = "legalEntityId") String legalEntityId);
+	String getOrganizationNumber(@PathVariable String municipalityId, @PathVariable String legalEntityId);
 }
