@@ -9,7 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
+import org.springframework.core.task.TaskDecorator;
 import org.springframework.stereotype.Service;
+import se.sundsvall.dept44.async.MdcTaskDecorator;
 import se.sundsvall.dept44.common.validators.annotation.impl.ValidOrganizationNumberConstraintValidator;
 import se.sundsvall.dept44.common.validators.annotation.impl.ValidPersonalNumberConstraintValidator;
 import se.sundsvall.dept44.problem.Problem;
@@ -27,6 +29,12 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class PartyService {
 
 	private static final ExecutorService LEGAL_ENTITY_EXECUTOR = Executors.newFixedThreadPool(10);
+	/**
+	 * The pool above is not a Spring bean, so Spring Boot's task execution auto-configuration never applies dept44's
+	 * decorator to it. Without this, work submitted to the pool loses the request id and the sender identity, which in
+	 * turn makes the outgoing legal entity calls untraceable back to the request that triggered them.
+	 */
+	private static final TaskDecorator TASK_DECORATOR = new MdcTaskDecorator();
 	private static final ValidOrganizationNumberConstraintValidator ENTERPRISE_VALIDATOR = new ValidOrganizationNumberConstraintValidator();
 	private static final ValidPersonalNumberConstraintValidator PRIVATE_VALIDATOR = new ValidPersonalNumberConstraintValidator();
 	private static final String ENTERPRISE_VALIDATION_ERROR_MESSAGE = ENTERPRISE_VALIDATOR.getMessage() + " or " + PRIVATE_VALIDATOR.getMessage().substring(PRIVATE_VALIDATOR.getMessage().indexOf("^"));
@@ -98,8 +106,8 @@ public class PartyService {
 
 		final var organizationNumbers = new ConcurrentHashMap<String, String>();
 		final var futures = citizenMisses.stream()
-			.map(partyId -> CompletableFuture.runAsync(() -> legalEntityIntegration.getOrganizationNumber(municipalityId, partyId)
-				.ifPresent(orgNumber -> organizationNumbers.put(partyId, orgNumber)), LEGAL_ENTITY_EXECUTOR))
+			.map(partyId -> CompletableFuture.runAsync(TASK_DECORATOR.decorate(() -> legalEntityIntegration.getOrganizationNumber(municipalityId, partyId)
+				.ifPresent(orgNumber -> organizationNumbers.put(partyId, orgNumber))), LEGAL_ENTITY_EXECUTOR))
 			.toList();
 
 		CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new)).join();
