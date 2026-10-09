@@ -31,7 +31,7 @@ import static se.sundsvall.party.api.model.PartyType.PRIVATE;
 @ActiveProfiles("junit")
 class PartyResourceFailuresTest {
 
-	private static final String ENTERPRISE_VALIDATION_MESSAGE = "must match the regular expression ^([1235789][\\d][2-9]\\d{7})$ or ^(19|20)[0-9]{10}$";
+	private static final String ENTERPRISE_VALIDATION_MESSAGE = "must match the regular expression ^([1235-9][\\d][2-9]\\d{7})$ or ^(19|20)[0-9]{10}$";
 	private static final String PRIVATE_VALIDATION_MESSAGE = "must match the regular expression ^(19|20)[0-9]{10}$";
 	private static final String UUID_VALIDATION_MESSAGE = "not a valid UUID";
 	private static final String MUNICIPALITY_ID_VALIDATION_MESSAGE = "not a valid municipality ID";
