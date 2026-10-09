@@ -1,16 +1,16 @@
 package se.sundsvall.party.apptest;
 
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
-
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import se.sundsvall.dept44.test.AbstractAppTest;
 import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
 import se.sundsvall.party.Application;
+
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 /**
  * Get legalId by partyId tests.
